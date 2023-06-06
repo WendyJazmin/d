@@ -1,0 +1,13 @@
+<resources>
+    <string name="app_name">Dispositivos_Moviles</string>
+    <string name="Titulo">Pedidos Online</string>
+    <string name="Saludo">¡Hola! Es bueno verte nuevamente</string>
+    <string name="Correo">Correo</string>
+    <string name="Contraseña">Contraseña</string>
+    <string name="Ingresar">Ingresar</string>
+    <string name="Mensaje">O conéctese usando las redes sociales</string>
+    <string name="Olvido">¿Olvidó su contraseña?</string>
+    <string name="Registrese">Regístrese</string>
+    <string name="Twitter">Twitter</string>
+    <string name="Facebook">Facebook</string>
+</resources>

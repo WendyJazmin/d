@@ -1,12 +1,11 @@
-package com.example.dispmoviles.ui.activities
+package com.example.dispositivos_moviles.ui.activities
 
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
-import com.example.dispmoviles.R
-import com.example.dispmoviles.databinding.ActivityMainBinding
-import com.example.dispmoviles.logic.validator.LoginValidator
+import com.example.dispositivos_moviles.databinding.ActivityMainBinding
+import com.example.dispositivos_moviles.logic.validator.LoginValidator
 import com.google.android.material.snackbar.Snackbar
 
 class MainActivity : AppCompatActivity() {

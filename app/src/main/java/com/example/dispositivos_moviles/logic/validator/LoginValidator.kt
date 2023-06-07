@@ -1,6 +1,6 @@
-package com.example.dispmoviles.logic.validator
+package com.example.dispositivos_moviles.logic.validator
 
-import com.example.dispmoviles.data.entities.LoginUser
+import com.example.dispositivos_moviles.data.entities.LoginUser
 
 class LoginValidator {
 

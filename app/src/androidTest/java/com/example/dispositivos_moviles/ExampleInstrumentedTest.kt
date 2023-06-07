@@ -1,4 +1,4 @@
-package com.example.dispmoviles
+package com.example.dispositivos_moviles
 
 import androidx.test.platform.app.InstrumentationRegistry
 import androidx.test.ext.junit.runners.AndroidJUnit4

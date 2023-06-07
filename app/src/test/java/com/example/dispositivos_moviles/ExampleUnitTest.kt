@@ -1,4 +1,4 @@
-package com.example.dispmoviles
+package com.example.dispositivos_moviles
 
 import org.junit.Test
 

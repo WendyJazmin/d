@@ -10,4 +10,7 @@
     <string name="Registrese">Regístrese</string>
     <string name="Twitter">Twitter</string>
     <string name="Facebook">Facebook</string>
+    <string name="menu_inicio">Inicio</string>
+    <string name="menu_favoritos">Favoritos</string>
+    <string name="menu_chat_gpt">Chat GPT</string>
 </resources>

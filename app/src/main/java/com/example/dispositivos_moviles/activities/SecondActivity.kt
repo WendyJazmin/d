@@ -1,4 +1,4 @@
-package com.example.dispositivos_moviles.ui.activities
+package com.example.dispositivos_moviles.activities
 
 import android.content.Intent
 import android.os.Bundle
@@ -7,6 +7,9 @@ import androidx.appcompat.app.AppCompatActivity
 import com.example.dispositivos_moviles.R
 import com.example.dispositivos_moviles.databinding.ActivityMainBinding
 import com.example.dispositivos_moviles.databinding.ActivitySecondBinding
+import com.example.dispositivos_moviles.fragments.FirstFragment
+import com.example.dispositivos_moviles.fragments.SecondFragment
+import com.example.dispositivos_moviles.fragments.ThirdFragment
 import com.google.android.material.snackbar.Snackbar
 
 class SecondActivity : AppCompatActivity() {
@@ -31,21 +34,35 @@ class SecondActivity : AppCompatActivity() {
             when(item.itemId) {
                 R.id.inicio -> {
 
-                    var suma: Int = 0
-                    for(i in listOf(1, 2, 3)){
-                        suma += i
-                    }
-                    Snackbar.make(binding.buttonBindingView, "La suma es: ${suma}",
-                        Snackbar.LENGTH_LONG).show()
+                    val frag = FirstFragment()
+                    val transaction = supportFragmentManager.beginTransaction()
+                    transaction.add(binding.frmContainer.id, frag)
+                    //cada clic que se haga se añade un fragment a la pila de navegacion del proyecto
+                    transaction.addToBackStack(null)
+                    transaction.commit()
                     // Respond to navigation item 1 click
                     true
                 }
                 R.id.favoritos -> {
                     // Respond to navigation item 2 click
+                    val frag = SecondFragment()
+                    val transaction = supportFragmentManager.beginTransaction()
+                    transaction.add(binding.frmContainer.id, frag)
+                    //cada clic que se haga se añade un fragment a la pila de navegacion del proyecto
+                    transaction.addToBackStack(null)
+                    transaction.commit()
+                    // Respond to navigation item 1 click
                     true
                 }
                 R.id.apis -> {
                     // Respond to navigation item 2 click
+                    val frag = ThirdFragment()
+                    val transaction = supportFragmentManager.beginTransaction()
+                    transaction.add(binding.frmContainer.id, frag)
+                    //cada clic que se haga se añade un fragment a la pila de navegacion del proyecto
+                    transaction.addToBackStack(null)
+                    transaction.commit()
+                    // Respond to navigation item 1 click
                     true
                 }
                 else -> false

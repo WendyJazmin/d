@@ -26,5 +26,9 @@
         <item name="android:textStyle">bold</item>
     </style>
 
+    <style name="ActiveIndicator" parent="Widget.Material3.BottomNavigationView.ActiveIndicator">
+        <item name="android:color">@color/dark_red</item>
+    </style>
+
 
 </resources>

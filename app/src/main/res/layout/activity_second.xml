@@ -41,6 +41,8 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/btnRetorno" />
     <com.google.android.material.bottomnavigation.BottomNavigationView
+        app:itemIconTint="@drawable/cualquiera"
+        app:itemActiveIndicatorStyle="@style/ActiveIndicator"
         android:id="@+id/bottom_navigation"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

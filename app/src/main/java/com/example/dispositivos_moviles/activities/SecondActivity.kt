@@ -41,12 +41,12 @@ class SecondActivity : AppCompatActivity() {
                 }
                 R.id.favoritos -> {
                     FragmentsManager().replaceFragment(supportFragmentManager,
-                        binding.frmContainer.id, FirstFragment())
+                        binding.frmContainer.id,SecondFragment())
                     true
                 }
                 R.id.apis -> {
                     FragmentsManager().replaceFragment(supportFragmentManager,
-                        binding.frmContainer.id, FirstFragment())
+                        binding.frmContainer.id,ThirdFragment())
                     true
                 }
                 else -> false

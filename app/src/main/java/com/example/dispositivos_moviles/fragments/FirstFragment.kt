@@ -6,8 +6,11 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ArrayAdapter
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.dispositivos_moviles.R
+import com.example.dispositivos_moviles.adapters.MarvelAdapter
 import com.example.dispositivos_moviles.databinding.FragmentFirstBinding
+import com.example.dispositivos_moviles.lists.ListItems
 
 
 class FirstFragment : Fragment() {
@@ -42,7 +45,14 @@ class FirstFragment : Fragment() {
         )
 
         binding.spinner.adapter = adapter
-        binding.listView.adapter = adapter
+        val rvAdapter = MarvelAdapter(ListItems().returnMarvelChars())
+        val rvMarvel = binding.rvMarvelChars
+        rvMarvel.adapter = rvAdapter
+        rvMarvel.layoutManager = LinearLayoutManager(
+            requireActivity(),
+            LinearLayoutManager.VERTICAL,
+            false
+        )
     }
 
 }

@@ -7,8 +7,7 @@ class FragmentsManager {
 
     fun replaceFragment(manager : FragmentManager,
                         container : Int,
-                        fragment : Fragment
-    ){
+                        fragment : Fragment){
 
         with(manager.beginTransaction()) {
             replace(container, fragment)
@@ -20,8 +19,7 @@ class FragmentsManager {
 
     fun addFragment(manager : FragmentManager,
                     container : Int,
-                    fragment : Fragment
-    ){
+                    fragment : Fragment){
 
         with(manager.beginTransaction()) {
             add(container, fragment)

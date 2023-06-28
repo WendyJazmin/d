@@ -1,4 +1,4 @@
-package com.example.dispositivos_moviles.data.entities
+package com.example.dispositivos_moviles.entities
 
 
 

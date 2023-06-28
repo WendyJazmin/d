@@ -1,6 +1,7 @@
 package com.example.dispositivos_moviles.lists
 
-import com.example.dispositivos_moviles.data.entities.LoginUser
+
+import com.example.dispositivos_moviles.entities.LoginUser
 import com.example.dispositivos_moviles.marvel.MarvelChars
 
 class ListItems {
@@ -32,21 +33,22 @@ class ListItems {
             ),
             MarvelChars(
                 3,
-                "Spider-Man 2099",
-                "Spider-Man 2099 Issue #46 (1996)",
-                "https://comicvine.gamespot.com/a/uploads/original/11170/111705043/8844222-2099.jpg"
+                "Black Cat",
+                "The Astonishing Spider-Man Issue #62 (2009)",
+                "https://comicvine.gamespot.com/a/uploads/original/12/124259/8106984-black_cat_vol_2_9_sway_variant_textless.jpg"
             ),
             MarvelChars(
                 4,
                 "Spider-Man",
                 "The Amazing Spider-Man Issue #700 (2013)",
-                "https://comicvine.gamespot.com/a/uploads/original/11170/111705043/8843794-neverready.jpg"
+                "https://comicvine.gamespot.com/a/uploads/original/13/132327/6605716-spider_man_ps4_by_patrickbrown-dcm8o9q.jpg"
+
             ),
             MarvelChars(
                 5,
-                "Magik",
-                "The New Mutants Issue #100 (1991)",
-                "https://comicvine.gamespot.com/a/uploads/original/12/124259/8939731-large-5909745.jpg"
+                "Scarlet Witch",
+                "House of M Issue #4 (2006)",
+                "https://comicvine.gamespot.com/a/uploads/original/12/124259/7930568-women_of_marvel_vol_2_1_lee_exclusive_virgin_variant.jpg"
             )
         )
         return items

@@ -27,38 +27,27 @@ class SecondActivity : AppCompatActivity() {
         super.onStart()
 
         var name : String = ""
-//        intent.extras.let {
-//            name = it?.getString("var1")!!
-//        }
+        binding.txtView.text = "Bienvenido $name"
+        Log.d("UCE", "Entrando a Start")
 
-        binding.bottomNavigation.setOnItemSelectedListener { item ->
-            when(item.itemId) {
-                R.id.inicio -> {
-
-                    FragmentsManager().replaceFragment(supportFragmentManager,
-                    binding.frmContainer.id,FirstFragment())
-                    true
-                }
-                R.id.favoritos -> {
-                    FragmentsManager().replaceFragment(supportFragmentManager,
-                        binding.frmContainer.id,SecondFragment())
-                    true
-                }
-                R.id.apis -> {
-                    FragmentsManager().replaceFragment(supportFragmentManager,
-                        binding.frmContainer.id,ThirdFragment())
-                    true
-                }
-                else -> false
-            }
-        }
+        super.onStart()
+        FragmentsManager().replaceFragment(supportFragmentManager,
+            binding.frmContainer.id,FirstFragment())
 
         initClass()
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
     }
 
     override fun onBackPressed() {
         super.onBackPressed()
     }
+//        intent.extras.let {
+//            name = it?.getString("var1")!!
+//        }
+
 
     fun initClass(){
         /*Log.d("uce", "Entrando a start")  debug en la terminal*/
@@ -70,6 +59,27 @@ class SecondActivity : AppCompatActivity() {
             /*Snackbar.make(
                 binding.loginSegundo,"regresando",
                 Snackbar.LENGTH_LONG).show()*/
+        }
+
+        binding.bottomNavigation.setOnItemSelectedListener { item ->
+            when(item.itemId) {
+                R.id.inicio -> {
+                    FragmentsManager().replaceFragment(supportFragmentManager,
+                        binding.frmContainer.id, FirstFragment())
+                    true
+                }
+                R.id.favoritos -> {
+                    FragmentsManager().replaceFragment(supportFragmentManager,
+                        binding.frmContainer.id, SecondFragment())
+                    true
+                }
+                R.id.apis -> {
+                    FragmentsManager().replaceFragment(supportFragmentManager,
+                        binding.frmContainer.id, ThirdFragment())
+                    true
+                }
+                else -> false
+            }
         }
     }
 }

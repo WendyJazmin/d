@@ -9,4 +9,30 @@
     <color name="light_blue">#00A2F5</color>
     <color name="blue">#23599B</color>
     <color name="morado">#B286FF</color>
+    <color name="morado_oscuro">#FF673AB7</color>
+
+
+    <color name="rosa">#FBDCEA</color>
+    <color name="morado_pastel">#DBD9FF</color>
+    <color name="azul">#7E9AE6</color>
+    <color name="verde_azul">#82D3FF</color>
+    <color name="verde_claro">#CFF5F4</color>
+    <color name="azul2">#587DAE</color>
+    <color name="morado2">#DCC8FF</color>
+    <color name="morado_claro">#C9A8CB</color>
+    <color name="morado_claro2">#BB9AF6</color>
+    <color name="celeste">#9ED8FF</color>
+
+    <color name="rojo_vino">#8C2B44</color>
+    <color name="rosa2">#F3A3CC</color>
+    <color name="rosa3">#FDD7E0</color>
+    <color name="rosa4">#EA708D</color>
+    <color name="rosa5">#CC6EAB</color>
+
+    <color name="celeste2">#FF9ED8FF</color>
+
+
+
+
+
 </resources>

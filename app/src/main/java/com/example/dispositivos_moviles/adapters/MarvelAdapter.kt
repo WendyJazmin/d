@@ -10,7 +10,10 @@ import com.example.dispositivos_moviles.marvel.MarvelChars
 import com.google.android.material.snackbar.Snackbar
 import com.squareup.picasso.Picasso
 
-class MarvelAdapter(private val items: List<MarvelChars>):
+class MarvelAdapter(private val items: List<MarvelChars>,
+
+    //Unit es igual al void en java, no devuelve nada
+                    private val fnClick: (MarvelChars) -> Unit):
     RecyclerView.Adapter<MarvelAdapter.MarvelViewHolder>() {
 
     class MarvelViewHolder(view: View): RecyclerView.ViewHolder(view) {
@@ -18,17 +21,16 @@ class MarvelAdapter(private val items: List<MarvelChars>):
         private val binding: MarvelCharactersBinding =
             MarvelCharactersBinding.bind(view)
 
-        fun render(item: MarvelChars){
+        fun render(item: MarvelChars,
+                   fnClick: (MarvelChars) -> Unit){
             binding.imgMarvel.bringToFront()
             binding.txtName.text = item.name
             binding.txtComic.text = item.comic
             Picasso.get().load(item.image).into(binding.imgMarvel)
 
-            binding.imgMarvel.setOnClickListener{
-                Snackbar.make(binding.imgMarvel,
-                    item.name,
-                    Snackbar.LENGTH_SHORT)
-                    .show()
+            itemView.setOnClickListener{
+                fnClick(item)
+                //Snackbar.make(binding.imgMarvel, item.name, Snackbar.LENGTH_SHORT).show()
             }
         }
 
@@ -42,13 +44,13 @@ class MarvelAdapter(private val items: List<MarvelChars>):
 
         return MarvelViewHolder(
             inflater.inflate(
-                R.layout.marvel_characters, parent, false
+                R.layout.marvel_characters2, parent, false
             )
         )
     }
 
     override fun onBindViewHolder(holder: MarvelAdapter.MarvelViewHolder, position: Int) {
-        holder.render(items[position])
+        holder.render(items[position], fnClick)
     }
 
     override fun getItemCount(): Int = items.size

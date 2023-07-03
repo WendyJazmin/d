@@ -9,11 +9,13 @@ import android.view.ViewGroup
 import android.widget.ArrayAdapter
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.example.dispositivos_moviles.R
 import com.example.dispositivos_moviles.activities.DetailsMarvelItem
 import com.example.dispositivos_moviles.adapters.MarvelAdapter
 import com.example.dispositivos_moviles.databinding.FragmentFirstBinding
 import com.example.dispositivos_moviles.lists.ListItems
+import com.example.dispositivos_moviles.logic.jikanLogic.JikanAnimeLogic
 import com.example.dispositivos_moviles.logic.marvelLogic.MarvelLogic
 import com.example.dispositivos_moviles.marvel.MarvelChars
 import kotlinx.coroutines.Dispatchers
@@ -23,6 +25,8 @@ import kotlinx.coroutines.withContext
 
 class FirstFragment : Fragment() {
     private lateinit var binding: FragmentFirstBinding
+    private lateinit var lmanager : LinearLayoutManager
+    private var rvAdapter : MarvelAdapter = MarvelAdapter { sendMarvelItem(it) }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -30,7 +34,11 @@ class FirstFragment : Fragment() {
     ): View? {
 
         binding = FragmentFirstBinding.inflate(layoutInflater, container, false)
-
+        lmanager = LinearLayoutManager(
+            requireActivity(),
+            LinearLayoutManager.VERTICAL,
+            false
+        )
         return binding.root
     }
 
@@ -53,13 +61,60 @@ class FirstFragment : Fragment() {
         )
 
         binding.spinner.adapter = adapter
-        chargeDataRV()
+        chargeDataRV("cap")
 
         binding.rvSwipe.setOnRefreshListener {//cargando
-            chargeDataRV()
+            chargeDataRV("cap")
             binding.rvSwipe.isRefreshing = false
         }
+
+
+        binding.rvMarvelChars.addOnScrollListener(
+            object: RecyclerView.OnScrollListener(){
+                override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
+                    super.onScrolled(recyclerView, dx, dy)
+                    //dy: posicion vertical
+                    if(dy > 0){
+
+                        //cuantos elems han pasado
+                        val v = lmanager.childCount
+                        //mi posicion actual
+                        val p = lmanager.findFirstVisibleItemPosition()
+                        //cuantos elems tengo en total
+                        val t = lmanager.itemCount
+
+                        //si la posicion actual mas los elems que han pasado, entonces tengo que recargar
+                        if((v + p) >= t){
+                            //en corutina IO
+                            lifecycleScope.launch(Dispatchers.IO){
+                                val newItems = JikanAnimeLogic().getAllAnimes()
+                                /*val newItems = MarvelLogic().getMarvelChars(
+                                    name = "spider",
+                                    limit = 20
+                                )*/
+                                //cambio de corutina a Main
+                                withContext(Dispatchers.Main){
+                                    rvAdapter.updateListItems(newItems)
+                                }
+                            }
+                        }
+
+                    }
+                }
+            })
     }
+
+    fun corrutine(){
+        lifecycleScope.launch(Dispatchers.Main){
+            var name = "Lenin"
+
+            name = withContext(Dispatchers.IO){
+                name = "David"
+                return@withContext name
+            }
+        }
+    }
+
 
     fun sendMarvelItem(item: MarvelChars) {
         //Intents solo estan en fragments y activities
@@ -69,26 +124,22 @@ class FirstFragment : Fragment() {
     }
     // Serializacion: pasar de un objeto a un string para poder enviarlo por medio de la web, usa obj JSON
     // Parceables: Mucho mas eficiente que la serializacion pero su implementacion es compleja, pero existen p
-    fun chargeDataRV() {
+    fun chargeDataRV(search:String) {
 
 
         lifecycleScope.launch(Dispatchers.IO){
-            val rvAdapter = MarvelAdapter(
-                ListItems().returnMarvelChars()
+            rvAdapter.items = //JikanAnimeLogic().getAllAnimes()
+               ListItems().returnMarvelChars()
                // JikanAnimeLogic().getAllAnimes()
 
-            )
+
             //las funciones lambda se llaman con {} y van fuera del parentesis
-            { sendMarvelItem(it) }
+           // { sendMarvelItem(it) }
 
             withContext(Dispatchers.Main){
                 with(binding.rvMarvelChars){
                     this.adapter = rvAdapter
-                    this.layoutManager = LinearLayoutManager(
-                        requireActivity(),
-                        LinearLayoutManager.VERTICAL,
-                        false
-                    )
+                    this.layoutManager = lmanager
                 }
             }
 

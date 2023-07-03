@@ -41,7 +41,8 @@
                 android:textColor="@color/white"
                 android:layout_marginTop="20dp"
                 android:textSize="24sp"
-                android:textStyle="italic"
+
+                android:fontFamily="@font/comfortaa_variablefont_wght"
 
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.428"

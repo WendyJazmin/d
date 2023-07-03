@@ -36,12 +36,13 @@
             android:layout_gravity="right"
             android:background="@color/red"
             android:gravity="center"
-            android:textStyle="bold"
+
+            android:fontFamily="@font/vt32_regular"
 
             android:includeFontPadding="false"
             android:text="Primer Fragment"
             android:textColor="@color/black"
-            android:textSize="25sp" />
+            android:textSize="40sp" />
 
     </androidx.cardview.widget.CardView>
 
@@ -64,6 +65,7 @@
         <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
             android:id="@+id/rvSwipe"
             android:layout_width="match_parent"
+
             app:swipeRefreshLayoutProgressSpinnerBackgroundColor="@color/blue"
             android:layout_height="match_parent">
 

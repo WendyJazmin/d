@@ -7,6 +7,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ArrayAdapter
+import androidx.core.widget.addTextChangedListener
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -27,6 +28,8 @@ class FirstFragment : Fragment() {
     private lateinit var binding: FragmentFirstBinding
     private lateinit var lmanager : LinearLayoutManager
     private var rvAdapter : MarvelAdapter = MarvelAdapter { sendMarvelItem(it) }
+
+    private lateinit var marvelCharsItems : MutableList<MarvelChars>
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -102,6 +105,16 @@ class FirstFragment : Fragment() {
                     }
                 }
             })
+
+        //se importa el que tiene llaves y dice Editable
+        binding.txtFilter.addTextChangedListener { filterText ->
+            val newItems = marvelCharsItems.filter {
+                    items -> items.name.contains(filterText.toString())
+            }
+
+            rvAdapter.replaceListItems(newItems)
+        }
+
     }
 
     fun corrutine(){
@@ -128,8 +141,10 @@ class FirstFragment : Fragment() {
 
 
         lifecycleScope.launch(Dispatchers.IO){
-            rvAdapter.items = //JikanAnimeLogic().getAllAnimes()
-               ListItems().returnMarvelChars()
+            var marvelCharsItems = MarvelLogic().getMarvelChars(name = search, limit = 20)
+            rvAdapter = MarvelAdapter(marvelCharsItems, fnClick = {sendMarvelItem(it)})
+           // rvAdapter.items = //JikanAnimeLogic().getAllAnimes()
+               //ListItems().returnMarvelChars()
                // JikanAnimeLogic().getAllAnimes()
 
 

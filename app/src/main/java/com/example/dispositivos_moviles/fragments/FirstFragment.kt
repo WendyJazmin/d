@@ -25,11 +25,13 @@ import kotlinx.coroutines.withContext
 
 
 class FirstFragment : Fragment() {
-    private lateinit var binding: FragmentFirstBinding
-    private lateinit var lmanager : LinearLayoutManager
-    private var rvAdapter : MarvelAdapter = MarvelAdapter { sendMarvelItem(it) }
 
-    private lateinit var marvelCharsItems : MutableList<MarvelChars>
+    private var page = 1
+    private lateinit var binding: FragmentFirstBinding
+    private lateinit var lmanager: LinearLayoutManager
+    private var rvAdapter: MarvelAdapter = MarvelAdapter { sendMarvelItem(it) }
+
+    private var marvelCharsItems: MutableList<MarvelChars> = mutableListOf<MarvelChars>()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -46,7 +48,7 @@ class FirstFragment : Fragment() {
     }
 
 
-    override fun onStart(){
+    override fun onStart() {
         super.onStart()
 
         val names = arrayListOf<String>(
@@ -55,22 +57,21 @@ class FirstFragment : Fragment() {
             "Andrés",
             "Pepe",
             "Mariano",
-            "Rosa")
+            "Rosa"
+        )
 
         val adapter = ArrayAdapter<String>(
             requireActivity(),
             R.layout.simple_layout,
             names
         )
-
         binding.spinner.adapter = adapter
         chargeDataRV("cap")
 
-        binding.rvSwipe.setOnRefreshListener {//cargando
+        binding.rvSwipe.setOnRefreshListener {
             chargeDataRV("cap")
             binding.rvSwipe.isRefreshing = false
         }
-
 
         binding.rvMarvelChars.addOnScrollListener(
             object: RecyclerView.OnScrollListener(){
@@ -107,27 +108,14 @@ class FirstFragment : Fragment() {
             })
 
         //se importa el que tiene llaves y dice Editable
-        binding.txtFilter.addTextChangedListener { filterText ->
+        binding.txtFilter.addTextChangedListener{ filterText ->
             val newItems = marvelCharsItems.filter {
-                    items -> items.name.contains(filterText.toString())
+                    items -> items.name.lowercase().contains(
+                filterText.toString().lowercase())
             }
-
             rvAdapter.replaceListItems(newItems)
         }
-
     }
-
-    fun corrutine(){
-        lifecycleScope.launch(Dispatchers.Main){
-            var name = "Lenin"
-
-            name = withContext(Dispatchers.IO){
-                name = "David"
-                return@withContext name
-            }
-        }
-    }
-
 
     fun sendMarvelItem(item: MarvelChars) {
         //Intents solo estan en fragments y activities
@@ -135,32 +123,29 @@ class FirstFragment : Fragment() {
         i.putExtra("name", item)
         startActivity(i)
     }
+
     // Serializacion: pasar de un objeto a un string para poder enviarlo por medio de la web, usa obj JSON
-    // Parceables: Mucho mas eficiente que la serializacion pero su implementacion es compleja, pero existen p
-    fun chargeDataRV(search:String) {
+    // Parceables: Mucho mas eficiente que la serializacion pero su implementacion es compleja, pero existen plugins que nos ayudan
+    fun chargeDataRV(search: String) {
 
+        lifecycleScope.launch(Dispatchers.Main) {
+            marvelCharsItems.addAll(withContext(Dispatchers.IO) {
+                return@withContext (MarvelLogic().getMarvelChars(
+                    "spider", 20
+                ))
+            })
 
-        lifecycleScope.launch(Dispatchers.IO){
-            var marvelCharsItems = MarvelLogic().getMarvelChars(name = search, limit = 20)
-            rvAdapter = MarvelAdapter(marvelCharsItems, fnClick = {sendMarvelItem(it)})
-           // rvAdapter.items = //JikanAnimeLogic().getAllAnimes()
-               //ListItems().returnMarvelChars()
-               // JikanAnimeLogic().getAllAnimes()
-
-
-            //las funciones lambda se llaman con {} y van fuera del parentesis
-           // { sendMarvelItem(it) }
-
-            withContext(Dispatchers.Main){
-                with(binding.rvMarvelChars){
-                    this.adapter = rvAdapter
-                    this.layoutManager = lmanager
-                }
+            //rvAdapter = MarvelAdapter(marvelCharsItems, fnClick = { sendMarvelItem(it) })
+            rvAdapter.items = marvelCharsItems
+            binding.rvMarvelChars.apply {
+                this.adapter = rvAdapter
+                this.layoutManager = layoutManager
             }
-
+            //  lmanager.scrollToPositionWithOffset(pos, 10)
         }
 
     }
 }
+
 
 

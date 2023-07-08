@@ -62,4 +62,10 @@ class MarvelAdapter(
         notifyDataSetChanged()
     }
 
+    fun replaceListItems(newItems: List<MarvelChars>){
+        //plus agrega a la lista los nuevos elems
+        this.items = newItems
+        notifyDataSetChanged()
+    }
+
 }

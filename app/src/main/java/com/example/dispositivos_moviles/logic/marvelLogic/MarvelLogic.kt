@@ -8,7 +8,7 @@ import com.example.dispositivos_moviles.marvel.MarvelChars
 class MarvelLogic {
     private val key = "f00af94ad24dd1d56b2ea26ae903030e"
 
-    suspend fun getMarvelChars(name : String, limit : Int): List<MarvelChars> {
+    suspend fun getMarvelChars(name : String, limit : Int): ArrayList<MarvelChars> {
 
         val itemList = arrayListOf<MarvelChars>()
         val response = ApiConnection.getService(

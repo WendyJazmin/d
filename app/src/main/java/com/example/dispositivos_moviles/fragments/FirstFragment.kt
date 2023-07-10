@@ -9,6 +9,7 @@ import android.view.ViewGroup
 import android.widget.ArrayAdapter
 import androidx.core.widget.addTextChangedListener
 import androidx.lifecycle.lifecycleScope
+import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.dispositivos_moviles.R
@@ -29,6 +30,8 @@ class FirstFragment : Fragment() {
     private var page = 1
     private lateinit var binding: FragmentFirstBinding
     private lateinit var lmanager: LinearLayoutManager
+    private lateinit var gManager : GridLayoutManager
+
     private var rvAdapter: MarvelAdapter = MarvelAdapter { sendMarvelItem(it) }
 
     private var marvelCharsItems: MutableList<MarvelChars> = mutableListOf<MarvelChars>()
@@ -44,6 +47,7 @@ class FirstFragment : Fragment() {
             LinearLayoutManager.VERTICAL,
             false
         )
+       gManager = GridLayoutManager(requireActivity(),2)
         return binding.root
     }
 
@@ -108,7 +112,7 @@ class FirstFragment : Fragment() {
             })
 
         //se importa el que tiene llaves y dice Editable
-        binding.txtFilter.addTextChangedListener{ filterText ->
+       binding.txtFilter.addTextChangedListener{ filterText ->
             val newItems = marvelCharsItems.filter {
                     items -> items.name.lowercase().contains(
                 filterText.toString().lowercase())
@@ -131,7 +135,7 @@ class FirstFragment : Fragment() {
         lifecycleScope.launch(Dispatchers.Main) {
             marvelCharsItems.addAll(withContext(Dispatchers.IO) {
                 return@withContext (MarvelLogic().getMarvelChars(
-                    "spider", 20
+                    name = search, 20
                 ))
             })
 

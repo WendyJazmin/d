@@ -1,4 +1,4 @@
-package com.example.dispositivos_moviles.data.connections
+package com.example.dispositivos_moviles.data.dao.marvel.connections
 
 import androidx.room.Database
 import androidx.room.RoomDatabase

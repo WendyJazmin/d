@@ -1,4 +1,4 @@
-package com.example.dispositivos_moviles.data.connections
+package com.example.dispositivos_moviles.data.dao.marvel.connections
 
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory

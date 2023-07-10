@@ -2,7 +2,7 @@ plugins {
     id 'com.android.application'
     id 'org.jetbrains.kotlin.android'
     id("kotlin-parcelize")
-    id 'kotlin-kapt'
+   // id 'kotlin-kapt'
 }
 
 android {
@@ -64,5 +64,5 @@ dependencies {
     annotationProcessor("androidx.room:room-compiler:2.5.0")
 
     // To use Kotlin annotation processing tool (kapt)
-    kapt("androidx.room:room-compiler:2.5.0")
+   // kapt("androidx.room:room-compiler:2.5.0")
 }

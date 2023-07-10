@@ -7,12 +7,15 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ArrayAdapter
+import androidx.core.widget.addTextChangedListener
 import androidx.lifecycle.lifecycleScope
+import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.dispositivos_moviles.R
 import com.example.dispositivos_moviles.activities.DetailsMarvelItem
 import com.example.dispositivos_moviles.adapters.MarvelAdapter
+import com.example.dispositivos_moviles.adapters.MarvelAdapter2
 import com.example.dispositivos_moviles.databinding.FragmentFirstBinding
 import com.example.dispositivos_moviles.databinding.FragmentSecondBinding
 import com.example.dispositivos_moviles.lists.ListItems
@@ -25,10 +28,12 @@ import kotlinx.coroutines.withContext
 
 class SecondFragment : Fragment() {
     private lateinit var binding: FragmentSecondBinding
-
-
     private lateinit var lmanager : LinearLayoutManager
-    private var rvAdapter : MarvelAdapter = MarvelAdapter { sendMarvelItem(it) }
+    private lateinit var gManager : GridLayoutManager
+
+    private var rvAdapter : MarvelAdapter2 = MarvelAdapter2 { sendMarvelItem(it) }//el adaptador con otro estilo
+
+    private var marvelCharsItems: MutableList<MarvelChars> = mutableListOf<MarvelChars>()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -41,6 +46,7 @@ class SecondFragment : Fragment() {
             LinearLayoutManager.VERTICAL,
             false
         )
+        gManager = GridLayoutManager(requireActivity(),2)
         return binding.root
     }
 
@@ -65,9 +71,9 @@ class SecondFragment : Fragment() {
         binding.spinner2.adapter = adapter
         chargeDataRV("cap")
 
-        binding.rvSwipe.setOnRefreshListener {//cargando
+        binding.rvSwipe2.setOnRefreshListener {//cargando
             chargeDataRV("cap")
-            binding.rvSwipe.isRefreshing = false
+            binding.rvSwipe2.isRefreshing = false
         }
 
 
@@ -104,14 +110,23 @@ class SecondFragment : Fragment() {
                     }
                 }
             })
+
+        //se importa el que tiene llaves y dice Editable
+        binding.txtFilter2.addTextChangedListener{ filterText ->
+            val newItems = marvelCharsItems.filter {
+                    items -> items.name.lowercase().contains(
+                filterText.toString().lowercase())
+            }
+            rvAdapter.replaceListItems(newItems)
+        }
     }
 
     fun corrutine(){
         lifecycleScope.launch(Dispatchers.Main){
-            var name = "Lenin"
+            var name = "wendy"
 
             name = withContext(Dispatchers.IO){
-                name = "David"
+                name = "wendy"
                 return@withContext name
             }
         }

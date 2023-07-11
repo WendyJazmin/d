@@ -1,10 +1,15 @@
 package com.example.dispositivos_moviles.logic.marvelLogic
 
-import android.util.Log
-import com.example.dispositivos_moviles.data.dao.marvel.connections.ApiConnection
-import com.example.dispositivos_moviles.endpoints.MarvelEndpoint
-import com.example.dispositivos_moviles.logic.jikanLogic.characters.getMarvelChars
-import com.example.dispositivos_moviles.marvel.MarvelChars
+import com.example.dispositivos_moviles.data.connections.ApiConnection
+import com.example.dispositivos_moviles.data.endpoints.MarvelEndpoint
+
+
+import com.example.dispositivos_moviles.data.entities.marvel.characters.dataBase.MarvelCharsDB
+import com.example.dispositivos_moviles.data.entities.marvel.characters.dataBase.getMarvelChars
+import com.example.dispositivos_moviles.data.entities.marvel.characters.getMarvelChars
+import com.example.dispositivos_moviles.logic.data.MarvelChars
+import com.example.dispositivos_moviles.logic.data.getMarvelCharsDB
+import com.example.dispositivos_moviles.ui.utilities.Dispositivos_Moviles
 
 
 class MarvelLogic {
@@ -20,20 +25,9 @@ class MarvelLogic {
 
         if(response.isSuccessful){
             response.body()!!.data.results.forEach {
-                var comic : String = "Not available"
-                if (it.comics.items.size > 0) {
-                    comic = it.comics.items[0].name
-                }
-                val m = MarvelChars(
-                    it.id,
-                    it.name,
-                    comic,
-                    it.thumbnail.path + "." + it.thumbnail.extension
-                )
+                val m = it.getMarvelChars()
                 itemList.add(m)
             }
-        } else {
-            Log.d("UCE", response.toString())
         }
         return itemList
     }
@@ -54,5 +48,26 @@ class MarvelLogic {
             }
         }
         return itemList
+    }
+
+    suspend fun getAllMarvelCharsDB(): List<MarvelChars> {
+        var itemList : ArrayList<MarvelChars> = arrayListOf()
+        val items_aux = Dispositivos_Moviles.getDBInstance().marvelDao().getAllCharacters()
+        items_aux.forEach {
+            itemList.add( it.getMarvelChars())
+        }
+        return itemList
+    }
+
+    suspend fun insertMarvelCharsToDB(items : List<MarvelChars>) {
+        var itemsDB = arrayListOf<MarvelCharsDB>()
+        items.forEach {
+            itemsDB.add(it.getMarvelCharsDB())
+        }
+
+        Dispositivos_Moviles
+            .getDBInstance()
+            .marvelDao()
+            .insertMarvelChar(itemsDB)
     }
 }

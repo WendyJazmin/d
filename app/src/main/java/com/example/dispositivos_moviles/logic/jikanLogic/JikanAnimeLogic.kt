@@ -1,8 +1,8 @@
 package com.example.dispositivos_moviles.logic.jikanLogic
 
-import com.example.dispositivos_moviles.data.dao.marvel.connections.ApiConnection
+import com.example.dispositivos_moviles.data.connections.ApiConnection
 import com.example.dispositivos_moviles.data.endpoints.JikanEndpoint
-import com.example.dispositivos_moviles.marvel.MarvelChars
+import com.example.dispositivos_moviles.logic.data.MarvelChars
 
 class JikanAnimeLogic {
     suspend fun getAllAnimes() : List<MarvelChars> {

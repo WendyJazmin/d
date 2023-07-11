@@ -4,8 +4,9 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/morado_pastel"
-    tools:context=".activities.SecondActivity">
+    android:background="@drawable/background2"
+
+    tools:context=".ui.activities.SecondActivity">
 
     <TextView
 
@@ -16,25 +17,15 @@
         android:layout_marginTop="28dp"
         android:gravity="center"
         android:text="Second Activity"
-        android:textColor="@color/black"
+        android:fontFamily="@font/coissantone_regular"
+
+        android:textColor="@color/morado_oscuro"
         android:textSize="40sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <Button
-        android:id="@+id/btnRetorno"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:gravity="center"
-        android:text="Botón"
 
-        android:textColor="#FFFFFF"
-        android:textSize="30sp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.497"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/txtView" />
 
 
     <FrameLayout
@@ -46,7 +37,7 @@
         app:layout_constraintHorizontal_bias="0.0"
 
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/btnRetorno" />
+        />
     <com.google.android.material.bottomnavigation.BottomNavigationView
         app:itemIconTint="@drawable/cualquiera"
         app:itemActiveIndicatorStyle="@style/ActiveIndicator"

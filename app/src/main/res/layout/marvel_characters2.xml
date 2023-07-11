@@ -6,7 +6,7 @@
 
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="@color/morado_pastel">
+    android:background="#673AB7">
 
 
     <androidx.cardview.widget.CardView
@@ -14,52 +14,60 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="25dp"
-        app:cardElevation="10dp"
         app:cardCornerRadius="12dp"
+        app:cardElevation="10dp"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" >
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.98">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="255dp"
             android:background="@drawable/background2">
 
             <ImageView
                 android:id="@+id/imgMarvel"
-                android:layout_width="125dp"
-                android:layout_height="125dp"
+                android:layout_width="96dp"
+                android:layout_height="88dp"
                 android:layout_margin="10dp"
                 app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.498"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintVertical_bias="0.095" />
 
             <TextView
                 android:id="@+id/txtName"
-                android:layout_width="180dp"
-                android:layout_height="wrap_content"
-                android:textColor="@color/white"
-                android:layout_marginTop="20dp"
-                android:textSize="24sp"
-                android:textStyle="bold"
+                android:layout_width="167dp"
+                android:layout_height="26dp"
+                android:layout_marginStart="36dp"
+                android:layout_marginTop="128dp"
                 android:fontFamily="@font/comfortaa_variablefont_wght"
+                android:textColor="@color/white"
+                android:textSize="18sp"
+                android:textStyle="bold"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.428"
-                app:layout_constraintStart_toEndOf="@+id/imgMarvel"
+                app:layout_constraintHorizontal_bias="0.386"
+                app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
                 tools:text="" />
 
             <TextView
                 android:id="@+id/txtComic"
-                android:textColor="@color/white"
-                android:layout_width="180dp"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="48dp"
-                android:textSize="16sp"
+                android:layout_width="157dp"
+                android:layout_height="21dp"
+                android:layout_marginStart="34dp"
+                android:layout_marginTop="64dp"
                 android:fontFamily="@font/comfortaa_variablefont_wght"
+                android:textColor="@color/white"
+                android:textSize="14sp"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.434"
-                app:layout_constraintStart_toEndOf="@+id/imgMarvel"
+                app:layout_constraintHorizontal_bias="0.4"
+                app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="@id/txtName"
                 tools:text="" />
 

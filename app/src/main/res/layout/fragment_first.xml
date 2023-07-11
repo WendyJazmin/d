@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
    android:orientation="vertical"
-    tools:context=".fragments.FirstFragment">
+    tools:context=".ui.fragments.FirstFragment">
 
     <androidx.cardview.widget.CardView
         android:id="@+id/cardView"
@@ -58,7 +58,7 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="horizontal"
+        android:orientation="vertical"
         tools:layout_editor_absoluteX="68dp"
         tools:layout_editor_absoluteY="126dp">
 
@@ -66,14 +66,14 @@
             android:id="@+id/txtFilter"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textColor="@color/black"
+            android:textColor="@color/white"
             android:maxLines="1"
             android:singleLine="true"
             android:imeOptions="actionSearch"
-            android:textSize="14sp"
+            android:textSize="18sp"
 
             android:fontFamily="@font/vt32_regular"
-            android:layout_margin="25dp"
+            android:layout_margin="10dp"
             />
 
         <androidx.swiperefreshlayout.widget.SwipeRefreshLayout

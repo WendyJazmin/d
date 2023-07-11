@@ -6,7 +6,7 @@
 
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="@color/morado_pastel">
+    android:background="#321C5A">
 
 
     <androidx.cardview.widget.CardView

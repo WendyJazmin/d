@@ -12,21 +12,18 @@
     <androidx.cardview.widget.CardView
 
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_margin="25dp"
+        android:layout_height="160dp"
+        android:layout_marginBottom="20dp"
         app:cardCornerRadius="12dp"
         app:cardElevation="10dp"
-        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.98">
+        app:layout_constraintTop_toTopOf="parent">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
-            android:layout_height="255dp"
-            android:background="@drawable/background2">
+            android:layout_height="200dp"
+            android:background="@drawable/background3">
 
             <ImageView
                 android:id="@+id/imgMarvel"
@@ -38,20 +35,20 @@
                 app:layout_constraintHorizontal_bias="0.498"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintVertical_bias="0.095" />
+                app:layout_constraintVertical_bias="0.0" />
 
             <TextView
                 android:id="@+id/txtName"
                 android:layout_width="167dp"
                 android:layout_height="26dp"
                 android:layout_marginStart="36dp"
-                android:layout_marginTop="128dp"
+                android:layout_marginTop="104dp"
                 android:fontFamily="@font/comfortaa_variablefont_wght"
                 android:textColor="@color/white"
                 android:textSize="18sp"
                 android:textStyle="bold"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.386"
+                app:layout_constraintHorizontal_bias="0.413"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
                 tools:text="" />
@@ -61,18 +58,28 @@
                 android:layout_width="157dp"
                 android:layout_height="21dp"
                 android:layout_marginStart="34dp"
-                android:layout_marginTop="64dp"
+                android:layout_marginTop="24dp"
                 android:fontFamily="@font/comfortaa_variablefont_wght"
                 android:textColor="@color/white"
                 android:textSize="14sp"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.4"
+                app:layout_constraintHorizontal_bias="0.429"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="@id/txtName"
                 tools:text="" />
 
+            <!--     <Button
+                     android:id="@+id/btnSave2"
+                     android:layout_width="100dp"
+                     android:layout_height="40dp"
+                     android:drawableLeft="@drawable/favorite_24"
+                     tools:layout_editor_absoluteX="120dp"
+                     tools:layout_editor_absoluteY="199dp" />
+                     -->
+
         </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.cardview.widget.CardView>
+
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -1,7 +1,11 @@
 package com.example.dispositivos_moviles.ui.fragments
 
+import android.content.Context
 import android.content.Intent
+import android.net.ConnectivityManager
+import android.net.NetworkCapabilities
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -16,10 +20,12 @@ import com.example.dispositivos_moviles.R
 import com.example.dispositivos_moviles.ui.activities.DetailsMarvelItem
 import com.example.dispositivos_moviles.ui.adapters.MarvelAdapter
 import com.example.dispositivos_moviles.databinding.FragmentFirstBinding
-import com.example.dispositivos_moviles.logic.jikanLogic.JikanAnimeLogic
 import com.example.dispositivos_moviles.logic.marvelLogic.MarvelLogic
 import com.example.dispositivos_moviles.logic.data.MarvelChars
-import com.example.dispositivos_moviles.ui.adapters.MarvelAdapter2
+import com.example.dispositivos_moviles.logic.data.getMarvelCharsDB
+import com.example.dispositivos_moviles.ui.utilities.Dispositivos_Moviles
+import com.example.dispositivos_moviles.ui.utilities.Metodos
+import com.google.android.material.snackbar.Snackbar
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
@@ -27,14 +33,17 @@ import kotlinx.coroutines.withContext
 
 class FirstFragment : Fragment() {
 
+    private var page = 1
     private lateinit var binding: FragmentFirstBinding
     private lateinit var lmanager: LinearLayoutManager
-    private var rvAdapter : MarvelAdapter = MarvelAdapter { sendMarvelItem(it) }
-    private var page = 1
-    private var marvelCharsItems: MutableList<MarvelChars> = mutableListOf<MarvelChars>()
+    private lateinit var gManager: GridLayoutManager //para hacer en dos columnas
 
-    //para hacer en dos columnas
-    private lateinit var gManager: GridLayoutManager
+    private var marvelCharsItems: MutableList<MarvelChars> = mutableListOf<MarvelChars>()
+    private var rvAdapter: MarvelAdapter = MarvelAdapter {sendMarvelItem(it)}//,{saveMarvelItem(it)})
+
+    //martes 11 de julio
+    private val limit = 99
+    private var offset = 6
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -59,7 +68,8 @@ class FirstFragment : Fragment() {
             "Andrés",
             "Pepe",
             "Mariano",
-            "Rosa")
+            "Rosa"
+        )
 
         val adapter = ArrayAdapter<String>(
             requireActivity(),
@@ -68,7 +78,7 @@ class FirstFragment : Fragment() {
         )
 
         binding.spinner.adapter = adapter
-       // chargeDataRV("cap")
+        // chargeDataRV("cap")
         chargeDataRVDB(5)
 
 
@@ -76,41 +86,38 @@ class FirstFragment : Fragment() {
 //            chargeDataRV(5)
 //            binding.rvSwipe.isRefreshing = false
 //        }
+
+        //cargando
         binding.rvSwipe.setOnRefreshListener {
-            chargeDataRVDB(5)
+            chargeDataRVAPI(offset = offset, limit = limit)
             binding.rvSwipe.isRefreshing = false
-            lmanager.scrollToPositionWithOffset(5, 30)
+            lmanager.scrollToPositionWithOffset(5, 20)
         }
 
         binding.rvMarvelChars.addOnScrollListener(
             object : RecyclerView.OnScrollListener() {
                 override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
-                    super.onScrolled(
-                        recyclerView,
-                        dx,
-                        dy
-                    )//dy para abajo contando y mostrando, y la dx de izquierda a derecha
-                    val v = lmanager.childCount//cuantos elementos tengo
-                    val p = lmanager.findFirstVisibleItemPosition()//cual es mi posicion actual
-                    val t = lmanager.itemCount//cuantos tengo en toal
+                    super.onScrolled(recyclerView, dx, dy)//dy para abajo contando y mostrando, y la dx de izquierda a derecha
 
                     if (dy > 0) {
-                        if ((v + p) >= t) {
-                            lifecycleScope.launch((Dispatchers.IO)) {
-                                /*  val newItems = JikanAnimeLogic().getAllAnimes()*/
-                                val newItems = MarvelLogic().getMarvelChars(
-                                    name = "spider",
-                                    limit = 20
-                                )
-                                withContext(Dispatchers.Main) {
-                                    rvAdapter.updateListItems((newItems))
-                                }
+                        val v = lmanager.childCount//cuantos elementos tengo
+                        val p = lmanager.findFirstVisibleItemPosition()//cual es mi posicion actual
+                        val t = lmanager.itemCount//cuantos tengo en toal
 
+                        if ((v + p) >= t) {
+                            lifecycleScope.launch((Dispatchers.Main)) {
+                                /*  val newItems = JikanAnimeLogic().getAllAnimes()*/
+                                val items = with(Dispatchers.IO){
+                                    MarvelLogic().getAllMarvelChars(offset,limit)
+                                }
+                                rvAdapter.updateListItems((items))
+                                this@FirstFragment.offset += offset
                             }
                         }
                     }
                 }
             })
+
         binding.txtFilter.addTextChangedListener { filteredText ->
             val newItems = marvelCharsItems.filter { items ->
                 items.name.lowercase().contains(filteredText.toString().lowercase())
@@ -128,6 +135,21 @@ class FirstFragment : Fragment() {
         i.putExtra("name", item)
         startActivity(i)
     }
+
+    fun saveMarvelItem(item : MarvelChars ) : Boolean {
+        lifecycleScope.launch(Dispatchers.Main) {
+            withContext(Dispatchers.IO) {
+                Dispositivos_Moviles
+                    .getDBInstance()
+                    .marvelDao()
+                    .insertMarvelChar(listOf(item.getMarvelCharsDB()))
+
+            }
+        }
+        return true
+    }
+
+
 
     /*
         fun corrtine(){
@@ -179,13 +201,16 @@ class FirstFragment : Fragment() {
                 return@withContext MarvelLogic().getAllMarvelCharsDB().toMutableList()
             })
 
-            if(marvelCharsItems.isEmpty()){
-                marvelCharsItems = withContext(Dispatchers.IO){
-                    return@withContext(MarvelLogic().getAllMarvelChars(0, page * 3)).toMutableList()
+            if (marvelCharsItems.isEmpty()) {
+                marvelCharsItems = withContext(Dispatchers.IO) {
+                    return@withContext (MarvelLogic().getAllMarvelChars(
+                        0,
+                        page * 3
+                    )).toMutableList()
                 }
             }
 
-            withContext(Dispatchers.IO){
+            withContext(Dispatchers.IO) {
                 MarvelLogic().insertMarvelCharsToDB(marvelCharsItems)
             }
 
@@ -199,6 +224,55 @@ class FirstFragment : Fragment() {
         }
         page++
     }
+
+
+    //martes 11 de julio
+
+
+
+    fun chargeDataRVAPI(limit: Int, offset: Int) {
+        lifecycleScope.launch(Dispatchers.Main) {
+            // marvelCharsItems.addAll(withContext(Dispatchers.IO) {
+            marvelCharsItems = withContext(Dispatchers.IO) {
+                return@withContext (MarvelLogic().getAllMarvelChars(
+                    offset, limit
+                ))
+            }
+            rvAdapter.items = marvelCharsItems
+            binding.rvMarvelChars.apply {
+                this.adapter = rvAdapter
+                this.layoutManager = gManager
+            }
+            this@FirstFragment.offset = offset + limit
+        }
+    }
+
+
+    fun chargeDataRVInit(limit: Int, offset: Int) {
+
+        if(Metodos().isOnline(requireActivity())){
+            lifecycleScope.launch(Dispatchers.Main) {
+                marvelCharsItems = withContext(Dispatchers.IO) {
+                    return@withContext MarvelLogic().getInitChars(limit,offset)
+
+                }
+                rvAdapter.items = marvelCharsItems
+                binding.rvMarvelChars.apply {
+                    this.adapter = rvAdapter
+                    this.layoutManager = gManager
+                }
+                this@FirstFragment.offset += limit
+            }
+        }else {
+            Snackbar.make(
+            binding.cardView,
+            "No hay conexion",
+            Snackbar.LENGTH_LONG
+            ).show()
+        }
+    }
+
+
 
 }
 

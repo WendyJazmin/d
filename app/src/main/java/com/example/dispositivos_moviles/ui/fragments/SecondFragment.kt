@@ -68,7 +68,7 @@ class SecondFragment : Fragment() {
             names
         )
 
-        binding.spinner2.adapter = adapter
+        //binding.spinner2.adapter = adapter
         // chargeDataRV("cap")
         chargeDataRVDB(5)
 

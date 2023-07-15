@@ -12,8 +12,9 @@
         android:layout_width="357dp"
         android:layout_height="95dp"
         android:layout_marginLeft="28dp"
-        android:layout_marginTop="40dp"
+        android:layout_marginTop="10dp"
         android:backgroundTint="@color/black"
+        app:cardCornerRadius="25dp"
 
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.496"
@@ -65,16 +66,15 @@
         <EditText
             android:id="@+id/txtFilter"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:textColor="@color/white"
+            android:layout_height="22dp"
+            android:layout_margin="10dp"
+            android:fontFamily="@font/vt32_regular"
+            android:imeOptions="actionSearch"
             android:maxLines="1"
             android:singleLine="true"
-            android:imeOptions="actionSearch"
-            android:textSize="18sp"
 
-            android:fontFamily="@font/vt32_regular"
-            android:layout_margin="10dp"
-            />
+            android:textColor="@color/white"
+            android:textSize="16sp" />
 
         <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
             android:id="@+id/rvSwipe"

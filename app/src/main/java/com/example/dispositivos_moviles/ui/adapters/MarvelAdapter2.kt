@@ -44,7 +44,7 @@ class MarvelAdapter2(
 
         return MarvelViewHolder(
             inflater.inflate(
-                R.layout.marvel_characters, parent, false//.marvel_characters (azul)
+                R.layout.marvel_characters2, parent, false//.marvel_characters (azul)
             )
         )
     }

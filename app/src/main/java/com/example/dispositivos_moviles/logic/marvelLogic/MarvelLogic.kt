@@ -10,10 +10,13 @@ import com.example.dispositivos_moviles.data.entities.marvel.characters.getMarve
 import com.example.dispositivos_moviles.logic.data.MarvelChars
 import com.example.dispositivos_moviles.logic.data.getMarvelCharsDB
 import com.example.dispositivos_moviles.ui.utilities.Dispositivos_Moviles
+import java.lang.Exception
+import java.lang.RuntimeException
 
 
 class MarvelLogic {
     private val key = "f00af94ad24dd1d56b2ea26ae903030e"
+
 
     suspend fun getMarvelChars(name : String, limit : Int): ArrayList<MarvelChars> {
 
@@ -69,5 +72,28 @@ class MarvelLogic {
             .getDBInstance()
             .marvelDao()
             .insertMarvelChar(itemsDB)
+    }
+
+    //Martes 11 de julio
+    suspend fun getInitChars(limit: Int, offset:Int): MutableList<MarvelChars> {
+        var items = mutableListOf<MarvelChars>()
+        try {
+            var items = MarvelLogic()
+                .getAllMarvelCharsDB()
+                .toMutableList()
+
+            if(items.isEmpty()){
+                items = (MarvelLogic().getAllMarvelChars(
+                    offset = offset, limit =limit
+                ))
+                MarvelLogic().insertMarvelCharsToDB(items)
+            }
+             items
+        }catch (ex: Exception){
+            throw RuntimeException(ex.message)
+        }finally {
+            return items
+        }
+
     }
 }

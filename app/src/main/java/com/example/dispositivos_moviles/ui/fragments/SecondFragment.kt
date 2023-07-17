@@ -22,20 +22,27 @@ import com.example.dispositivos_moviles.logic.jikanLogic.JikanAnimeLogic
 import com.example.dispositivos_moviles.logic.data.MarvelChars
 import com.example.dispositivos_moviles.logic.marvelLogic.MarvelLogic
 import com.example.dispositivos_moviles.ui.adapters.MarvelAdapter
+import com.example.dispositivos_moviles.ui.utilities.Metodos
+import com.google.android.material.snackbar.Snackbar
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
 
 class SecondFragment : Fragment() {
+
     private lateinit var binding: FragmentSecondBinding
     private lateinit var lmanager: LinearLayoutManager
+    private lateinit var gManager: GridLayoutManager//para hacer en 2 columnas
+
     private var rvAdapter : MarvelAdapter2 = MarvelAdapter2 { sendMarvelItem(it) }
-    private var page = 1
     private var marvelCharsItems: MutableList<MarvelChars> = mutableListOf<MarvelChars>()
 
-    //para hacer en dos columnas
-    private lateinit var gManager: GridLayoutManager
+    //martes 11 de julio
+    private val limit = 99
+    private var offset = 6
+    private var page = 1
+
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -68,17 +75,15 @@ class SecondFragment : Fragment() {
             names
         )
 
-        //binding.spinner2.adapter = adapter
+
         // chargeDataRV("cap")
-        chargeDataRVDB(5)
+        //chargeDataRVDB(5)
+        chargeDataRVAPI(offset = offset, limit = limit)
 
-
-//        binding.rvSwipe.setOnRefreshListener {
-//            chargeDataRV(5)
-//            binding.rvSwipe.isRefreshing = false
-//        }
+        //cargando
         binding.rvSwipe2.setOnRefreshListener {
-            chargeDataRVDB(5)
+            //chargeDataRVDB(5)
+            chargeDataRVAPI(offset = offset, limit = limit)
             binding.rvSwipe2.isRefreshing = false
             lmanager.scrollToPositionWithOffset(5, 30)
         }
@@ -135,19 +140,7 @@ class SecondFragment : Fragment() {
         startActivity(i)
     }
 
-    /*
-        fun corrtine(){
-            lifecycleScope.launch(Dispatchers.Main){
-                var name="dave"
-              name= withContext(Dispatchers.IO){
-                    name = "Maria"
-                  return@withContext name
-                }
-                //aqui va el codigo que necesitemos
-               // binding.card1Fragment.radius
-            }
-        }
-        */
+
     fun chargeDataRV(search: String) {
         lifecycleScope.launch(Dispatchers.IO) {
             rvAdapter.items = MarvelLogic().getAllMarvelChars(0, 99)
@@ -159,24 +152,10 @@ class SecondFragment : Fragment() {
                 }
             }
         }
-
-        /* lifecycleScope.launch(Dispatchers.Main) {
-            marvelCharsItems.addAll(withContext(Dispatchers.IO) {
-                 return@withContext (MarvelLogic().getMarvelChars(
-                     "spider", 20
-                 ))
-             })
-
-             //rvAdapter = MarvelAdapter(marvelCharsItems, fnClick = { sendMarvelItem(it) })
-             rvAdapter.items = marvelCharsItems
-             binding.rvMarvelChars.apply {
-                 this.adapter = rvAdapter
-                 this.layoutManager = layoutManager
-             }
-           //  lmanager.scrollToPositionWithOffset(pos, 10)
-         }*/
-
     }
+
+
+
 
 
     fun chargeDataRVDB(pos: Int) {
@@ -185,13 +164,16 @@ class SecondFragment : Fragment() {
                 return@withContext MarvelLogic().getAllMarvelCharsDB().toMutableList()
             })
 
-            if(marvelCharsItems.isEmpty()){
-                marvelCharsItems = withContext(Dispatchers.IO){
-                    return@withContext(MarvelLogic().getAllMarvelChars(0, page * 3)).toMutableList()
+            if (marvelCharsItems.isEmpty()) {
+                marvelCharsItems = withContext(Dispatchers.IO) {
+                    return@withContext (MarvelLogic().getAllMarvelChars(
+                        0,
+                        page * 3
+                    )).toMutableList()
                 }
             }
 
-            withContext(Dispatchers.IO){
+            withContext(Dispatchers.IO) {
                 MarvelLogic().insertMarvelCharsToDB(marvelCharsItems)
             }
 
@@ -199,11 +181,55 @@ class SecondFragment : Fragment() {
             binding.rvMarvelChars2.apply {
                 this.adapter = rvAdapter
                 this.layoutManager = gManager
-                //gManager.scrollToPositionWithOffset(pos, 20)
+                gManager.scrollToPositionWithOffset(pos, 10)
             }
-
         }
         page++
     }
+
+
+    //martes 11 de julio
+    fun chargeDataRVAPI(limit: Int, offset: Int) {
+        lifecycleScope.launch(Dispatchers.Main) {
+            // marvelCharsItems.addAll(withContext(Dispatchers.IO) {
+            marvelCharsItems = withContext(Dispatchers.IO) {
+                return@withContext (MarvelLogic().getAllMarvelChars(
+                    offset, limit
+                ))
+            }
+            rvAdapter.items = marvelCharsItems
+            binding.rvMarvelChars2.apply {
+                this.adapter = rvAdapter
+                this.layoutManager = gManager
+            }
+            this@SecondFragment.offset = offset + limit
+        }
+    }
+
+
+    fun chargeDataRVInit(limit: Int, offset: Int) {
+
+        if(Metodos().isOnline(requireActivity())){
+            lifecycleScope.launch(Dispatchers.Main) {
+                marvelCharsItems = withContext(Dispatchers.IO) {
+                    return@withContext MarvelLogic().getInitChars(limit,offset)
+
+                }
+                rvAdapter.items = marvelCharsItems
+                binding.rvMarvelChars2.apply {
+                    this.adapter = rvAdapter
+                    this.layoutManager = gManager
+                }
+                this@SecondFragment.offset += limit
+            }
+        }else {
+            Snackbar.make(
+                binding.cardView,
+                "No hay conexion",
+                Snackbar.LENGTH_LONG
+            ).show()
+        }
+    }
+
 
 }

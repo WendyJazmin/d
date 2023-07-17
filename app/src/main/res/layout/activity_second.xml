@@ -4,7 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/background2"
+
+    android:background="@color/black"
 
     tools:context=".ui.activities.SecondActivity">
 
@@ -30,14 +31,15 @@
 
     <FrameLayout
         android:id="@+id/frm_container"
-        android:layout_width="408dp"
-        android:layout_height="500dp"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_margin="15dp"
         app:layout_constraintBottom_toTopOf="@+id/bottom_navigation"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-
+        app:layout_constraintHorizontal_bias="0.473"
         app:layout_constraintStart_toStartOf="parent"
-        />
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.255"/>
     <com.google.android.material.bottomnavigation.BottomNavigationView
         app:itemIconTint="@drawable/cualquiera"
         app:itemActiveIndicatorStyle="@style/ActiveIndicator"

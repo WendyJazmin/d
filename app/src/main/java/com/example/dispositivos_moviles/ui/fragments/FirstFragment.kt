@@ -79,13 +79,10 @@ class FirstFragment : Fragment() {
 
         binding.spinner.adapter = adapter
         // chargeDataRV("cap")
-        chargeDataRVDB(5)
+        //chargeDataRVInit(offset = offset, limit = limit)
+        //chargeDataRVDB(5)
+        chargeDataRVAPI(offset = offset, limit = limit)
 
-
-//        binding.rvSwipe.setOnRefreshListener {
-//            chargeDataRV(5)
-//            binding.rvSwipe.isRefreshing = false
-//        }
 
         //cargando
         binding.rvSwipe.setOnRefreshListener {
@@ -124,8 +121,6 @@ class FirstFragment : Fragment() {
             }
             rvAdapter.replaceListItems(newItems)
         }
-
-
     }
 
     //Un intent se encuentra en un activity o un fragment
@@ -148,7 +143,6 @@ class FirstFragment : Fragment() {
         }
         return true
     }
-
 
 
     /*
@@ -220,16 +214,12 @@ class FirstFragment : Fragment() {
                 this.layoutManager = gManager
                 gManager.scrollToPositionWithOffset(pos, 10)
             }
-
         }
         page++
     }
 
 
     //martes 11 de julio
-
-
-
     fun chargeDataRVAPI(limit: Int, offset: Int) {
         lifecycleScope.launch(Dispatchers.Main) {
             // marvelCharsItems.addAll(withContext(Dispatchers.IO) {
@@ -271,8 +261,6 @@ class FirstFragment : Fragment() {
             ).show()
         }
     }
-
-
 
 }
 

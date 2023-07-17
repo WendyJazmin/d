@@ -48,8 +48,12 @@ dependencies {
     androidTestImplementation 'androidx.test.ext:junit:1.1.5'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.5.1'
 
+    //picasso para imagenes
     implementation 'com.squareup.picasso:picasso:2.8'
     implementation("androidx.swiperefreshlayout:swiperefreshlayout:1.1.0")
+
+    //implementar GIFs
+    implementation 'pl.droidsonroids.gif:android-gif-drawable:1.2.22'
 
     //Retrofit (API)
     implementation 'com.squareup.retrofit2:retrofit:2.9.0'
@@ -65,4 +69,7 @@ dependencies {
 
     // To use Kotlin annotation processing tool (kapt)
     kapt("androidx.room:room-compiler:2.5.0")
+
+    //DataStore
+    implementation "androidx.datastore:datastore-preferences:1.0.0"
 }

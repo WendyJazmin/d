@@ -1,57 +1,54 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-   android:orientation="vertical"
-    tools:context=".ui.fragments.FirstFragment">
+    android:orientation="vertical"
 
+    tools:context=".ui.fragments.FirstFragment">
+     <!-- android:background="@drawable/background"--> <!--ojo degradado-->
     <androidx.cardview.widget.CardView
         android:id="@+id/cardView"
         android:layout_width="357dp"
         android:layout_height="95dp"
-        android:layout_marginLeft="28dp"
-        android:layout_marginTop="10dp"
+        android:layout_margin="25dp"
         android:backgroundTint="@color/black"
         app:cardCornerRadius="25dp"
-
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.496"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
+       <LinearLayout
+           android:layout_width="match_parent"
+           android:layout_height="wrap_content">
 
-        <ImageView
-            android:id="@+id/imageMiles"
-            android:layout_width="87dp"
-            android:layout_height="match_parent"
-            android:src="@drawable/miles"
-            tools:layout_editor_absoluteX="115dp"
-            tools:layout_editor_absoluteY="166dp" />
+           <ImageView
+               android:id="@+id/imageMiles"
+               android:layout_width="87dp"
+               android:layout_height="match_parent"
+               android:src="@drawable/miles"
+               tools:layout_editor_absoluteX="115dp"
+               tools:layout_editor_absoluteY="166dp" />
 
-        <TextView
-            android:id="@+id/textViewFrag"
-            android:layout_width="269dp"
-            android:layout_height="match_parent"
-            android:layout_gravity="right"
-            android:background="@color/red"
-            android:gravity="center"
-
-            android:fontFamily="@font/vt32_regular"
-
-            android:includeFontPadding="false"
-            android:text="Primer Fragment"
-            android:textColor="@color/black"
-            android:textSize="40sp" />
-
+           <ImageView
+               android:id="@+id/imageLogoMarvel"
+               android:layout_width="259dp"
+               android:layout_height="match_parent"
+               android:src="@drawable/marvel_studios"
+               tools:layout_editor_absoluteX="255dp"
+               tools:layout_editor_absoluteY="166dp" />
+       </LinearLayout>
     </androidx.cardview.widget.CardView>
 
     <Spinner
         android:id="@+id/spinner"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="25dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginLeft="25dp"
+        android:layout_marginRight="25dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/cardView" />
@@ -59,37 +56,38 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:layout_marginTop="180dp"
         android:orientation="vertical"
-        tools:layout_editor_absoluteX="68dp"
-        tools:layout_editor_absoluteY="126dp">
+        >
 
         <EditText
             android:id="@+id/txtFilter"
             android:layout_width="match_parent"
-            android:layout_height="22dp"
-            android:layout_margin="10dp"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="10dp"
+            android:layout_marginLeft="10dp"
             android:fontFamily="@font/vt32_regular"
-            android:imeOptions="actionSearch"
+            android:imeOptions="actionDone"
             android:maxLines="1"
             android:singleLine="true"
 
             android:textColor="@color/white"
-            android:textSize="16sp" />
+            android:textSize="18sp" />
 
         <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
             android:id="@+id/rvSwipe"
             android:layout_width="match_parent"
 
-            app:swipeRefreshLayoutProgressSpinnerBackgroundColor="@color/blue"
-            android:layout_height="match_parent">
+            android:layout_height="match_parent"
+            app:swipeRefreshLayoutProgressSpinnerBackgroundColor="@color/blue">
 
 
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/rvMarvelChars"
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/rvMarvelChars"
 
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
         </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
     </LinearLayout>
 
-</LinearLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>

@@ -4,8 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-
-    android:windowSoftInputMode="adjustResize"
+    android:orientation="vertical"
+    android:background="@color/azul"
     tools:context=".ui.fragments.SecondFragment">
 
     <androidx.cardview.widget.CardView
@@ -34,11 +34,11 @@
                 android:layout_marginBottom="10dp"
                 android:layout_weight="1"
                 android:autoSizeTextType="uniform"
-
+                android:fontFamily="@font/coissantone_regular"
                 android:textAlignment="center"
-                android:textColor="@color/white"
-                android:textAllCaps="true"
-                android:text="Tercer fragment"/>
+                android:textColor="@color/morado_claro2"
+
+                android:text="Tercer Fragment"/>
 
         </LinearLayout>
 

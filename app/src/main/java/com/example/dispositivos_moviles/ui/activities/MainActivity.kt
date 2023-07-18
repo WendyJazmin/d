@@ -22,6 +22,10 @@ import androidx.datastore.preferences.core.stringPreferencesKey
 import androidx.datastore.preferences.preferencesDataStore
 import java.util.UUID
 
+//imports lunes 17 de julio
+import android.app.SearchManager
+import androidx.activity.result.contract.ActivityResultContracts
+
 //sabado 15 de julio
 val Context.dataStore: DataStore<Preferences> by preferencesDataStore(name = "settings")
 class MainActivity : AppCompatActivity() {
@@ -74,6 +78,42 @@ class MainActivity : AppCompatActivity() {
 
             }
         }
+
+        //Lunes 17 de julio
+        binding.buttonTwitter.setOnClickListener{
+//            val intent = Intent(Intent.ACTION_VIEW, Uri.parse("geo:-0.200628,-78.5786066"))
+//             startActivity(intent)//no se que app va a abrir la url
+            //ACTION_SEARCH
+            val intentX = Intent(Intent.ACTION_WEB_SEARCH)
+            intentX.setClassName("com.google.android.googlequicksearchbox",
+                "com.google.android.googlequicksearchbox.SearchActivity")
+            intentX.putExtra(SearchManager.QUERY,"UCE")
+
+            startActivity(intentX)
+        }
+
+        val appResultLocal= registerForActivityResult(ActivityResultContracts.StartActivityForResult()){ resultActivity->
+            when(resultActivity.resultCode){
+                RESULT_OK ->{
+                    Log.d("UCE","Resultado exitoso")
+                    Snackbar.make(binding.textCorreo,"Resultadp exitoso",Snackbar.LENGTH_LONG).show()
+                }
+
+                RESULT_CANCELED->{Log.d("UCE","Resultado fallido")
+                    Snackbar.make(binding.textCorreo,"Resultadp fallido",Snackbar.LENGTH_LONG).show()
+                }
+                else->{Log.d("UCE","Resultado dudoso" +
+                        "")
+
+                }
+            }
+
+        }
+        binding.buttonFacebook.setOnClickListener{
+            val resIntent = Intent(this,ResultActivity::class.java)
+            appResultLocal.launch(resIntent)
+        }
+        //
     }
 
 

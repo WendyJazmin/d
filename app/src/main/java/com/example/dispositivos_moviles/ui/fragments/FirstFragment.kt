@@ -13,7 +13,6 @@ import android.view.ViewGroup
 import android.widget.ArrayAdapter
 import android.widget.Toast
 import androidx.core.widget.addTextChangedListener
-import androidx.datastore.preferences.core.stringPreferencesKey
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -36,6 +35,7 @@ import kotlinx.coroutines.withContext
 import com.example.dispositivos_moviles.ui.activities.dataStore
 import com.example.dispositivos_moviles.ui.data.UserDataStore
 import kotlinx.coroutines.flow.map
+import androidx.datastore.preferences.core.stringPreferencesKey
 
 
 class FirstFragment : Fragment() {
@@ -70,7 +70,7 @@ class FirstFragment : Fragment() {
 
         //sabado 15 de julio
         lifecycleScope.launch(Dispatchers.Main) {
-            getDataStore().collect { user ->
+            getDataStore().collect() { user ->
                 Log.d("------------>> UCE email", user.email)
                 Log.d("------------>> UCE name", user.name)
                 Log.d("------------>> UCE session", user.session)

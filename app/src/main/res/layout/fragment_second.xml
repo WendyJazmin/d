@@ -35,7 +35,7 @@
 
             <TextView
                 android:id="@+id/textViewFrag"
-                android:layout_width="268dp"
+                android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_gravity="right"
                 android:background="@color/verde_azul"
@@ -55,7 +55,6 @@
         android:orientation="vertical"
         tools:layout_editor_absoluteX="68dp"
         tools:layout_editor_absoluteY="126dp">
-
 
         <!-- BUSCADOR -->
         <LinearLayout
@@ -92,10 +91,8 @@
             app:swipeRefreshLayoutProgressSpinnerBackgroundColor="@color/blue"
             android:layout_height="match_parent">
 
-
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/rvMarvelChars2"
-
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content" />
 

@@ -14,12 +14,10 @@
         android:id="@+id/txtView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-
         android:layout_marginTop="28dp"
         android:gravity="center"
         android:text="Second Activity"
         android:fontFamily="@font/coissantone_regular"
-
         android:textColor="@color/morado_oscuro"
         android:textSize="40sp"
         app:layout_constraintEnd_toEndOf="parent"

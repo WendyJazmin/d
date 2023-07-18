@@ -11,7 +11,9 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ArrayAdapter
+import android.widget.Toast
 import androidx.core.widget.addTextChangedListener
+import androidx.datastore.preferences.core.stringPreferencesKey
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -30,28 +32,31 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
+//import sabado 15 de julio
+import com.example.dispositivos_moviles.ui.activities.dataStore
+import com.example.dispositivos_moviles.ui.data.UserDataStore
+import kotlinx.coroutines.flow.map
+
 
 class FirstFragment : Fragment() {
 
-    private var page = 1
     private lateinit var binding: FragmentFirstBinding
     private lateinit var lmanager: LinearLayoutManager
-    private lateinit var gManager: GridLayoutManager //para hacer en dos columnas
+    private lateinit var gManager: GridLayoutManager  //para hacer en dos columnas
 
-    private var marvelCharsItems: MutableList<MarvelChars> = mutableListOf<MarvelChars>()
-    private var rvAdapter: MarvelAdapter = MarvelAdapter {sendMarvelItem(it)}//,{saveMarvelItem(it)})
+    private var rvAdapter: MarvelAdapter = MarvelAdapter { sendMarvelItem(it) }
+    private var marvelCharsItems: MutableList<MarvelChars> = mutableListOf()
 
     //martes 11 de julio
-    private val limit = 99
-    private var offset = 6
+    private var limit = 99
+    private var offset = 0
+    private var page = 1
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
         binding = FragmentFirstBinding.inflate(layoutInflater, container, false)
-        // Inflate the layout for this fragment
-        //  return inflater.inflate(R.layout.fragment_first, container, false)
         lmanager = LinearLayoutManager(
             requireActivity(), LinearLayoutManager.VERTICAL,
             false
@@ -62,6 +67,17 @@ class FirstFragment : Fragment() {
 
     override fun onStart() {
         super.onStart()
+
+        //sabado 15 de julio
+        lifecycleScope.launch(Dispatchers.Main) {
+            getDataStore().collect { user ->
+                Log.d("------------>> UCE email", user.email)
+                Log.d("------------>> UCE name", user.name)
+                Log.d("------------>> UCE session", user.session)
+            }
+        }
+        //
+
         val names = arrayListOf<String>(
             "Carlos",
             "Xavier",
@@ -71,22 +87,21 @@ class FirstFragment : Fragment() {
             "Rosa"
         )
 
-        val adapter = ArrayAdapter<String>(
+        val adapter = ArrayAdapter(
             requireActivity(),
+            //el simple spinner no es de nadie :v
             R.layout.simple_layout,
             names
         )
 
         binding.spinner.adapter = adapter
-        // chargeDataRV("cap")
-        //chargeDataRVInit(offset = offset, limit = limit)
-        //chargeDataRVDB(5)
+        //chargeDataRVInit(limit, offset)//martes 11 de julio, comprueba si existe conexion
         chargeDataRVAPI(offset = offset, limit = limit)
 
-
-        //cargando
+        //CARGANDO
         binding.rvSwipe.setOnRefreshListener {
-            chargeDataRVAPI(offset = offset, limit = limit)
+            chargeDataRVInit(limit, offset)//martes 11 de julio, comprueba si existe conexion
+           // chargeDataRVAPI(offset = offset, limit = limit)
             binding.rvSwipe.isRefreshing = false
             lmanager.scrollToPositionWithOffset(5, 20)
         }
@@ -95,7 +110,6 @@ class FirstFragment : Fragment() {
             object : RecyclerView.OnScrollListener() {
                 override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
                     super.onScrolled(recyclerView, dx, dy)//dy para abajo contando y mostrando, y la dx de izquierda a derecha
-
                     if (dy > 0) {
                         val v = lmanager.childCount//cuantos elementos tengo
                         val p = lmanager.findFirstVisibleItemPosition()//cual es mi posicion actual
@@ -104,17 +118,17 @@ class FirstFragment : Fragment() {
                         if ((v + p) >= t) {
                             lifecycleScope.launch((Dispatchers.Main)) {
                                 /*  val newItems = JikanAnimeLogic().getAllAnimes()*/
-                                val items = with(Dispatchers.IO){
-                                    MarvelLogic().getAllMarvelChars(offset,limit)
+                                val items = with(Dispatchers.IO) {
+                                    MarvelLogic().getAllMarvelChars(offset, limit)
                                 }
-                                rvAdapter.updateListItems((items))
-                                this@FirstFragment.offset += offset
+
+                                rvAdapter.updateListItems(items)
+                                this@FirstFragment.offset+=limit
                             }
                         }
                     }
                 }
             })
-
         binding.txtFilter.addTextChangedListener { filteredText ->
             val newItems = marvelCharsItems.filter { items ->
                 items.name.lowercase().contains(filteredText.toString().lowercase())
@@ -131,33 +145,20 @@ class FirstFragment : Fragment() {
         startActivity(i)
     }
 
-    fun saveMarvelItem(item : MarvelChars ) : Boolean {
-        lifecycleScope.launch(Dispatchers.Main) {
-            withContext(Dispatchers.IO) {
-                Dispositivos_Moviles
-                    .getDBInstance()
-                    .marvelDao()
-                    .insertMarvelChar(listOf(item.getMarvelCharsDB()))
+    //guardar en favoritos
+    /* fun saveMarvelItem(item : MarvelChars ) : Boolean {
+         lifecycleScope.launch(Dispatchers.Main) {
+             withContext(Dispatchers.IO) {
+                 Dispositivos_Moviles
+                     .getDBInstance()
+                     .marvelDao()
+                     .insertMarvelChar(listOf(item.getMarvelCharsDB()))
 
-            }
-        }
-        return true
-    }
+             }
+         }
+         return true
+     }*/
 
-
-    /*
-        fun corrtine(){
-            lifecycleScope.launch(Dispatchers.Main){
-                var name="dave"
-              name= withContext(Dispatchers.IO){
-                    name = "Maria"
-                  return@withContext name
-                }
-                //aqui va el codigo que necesitemos
-               // binding.card1Fragment.radius
-            }
-        }
-        */
     fun chargeDataRV(search: String) {
         lifecycleScope.launch(Dispatchers.IO) {
             rvAdapter.items = MarvelLogic().getAllMarvelChars(0, 99)
@@ -169,25 +170,7 @@ class FirstFragment : Fragment() {
                 }
             }
         }
-
-        /* lifecycleScope.launch(Dispatchers.Main) {
-            marvelCharsItems.addAll(withContext(Dispatchers.IO) {
-                 return@withContext (MarvelLogic().getMarvelChars(
-                     "spider", 20
-                 ))
-             })
-
-             //rvAdapter = MarvelAdapter(marvelCharsItems, fnClick = { sendMarvelItem(it) })
-             rvAdapter.items = marvelCharsItems
-             binding.rvMarvelChars.apply {
-                 this.adapter = rvAdapter
-                 this.layoutManager = layoutManager
-             }
-           //  lmanager.scrollToPositionWithOffset(pos, 10)
-         }*/
-
     }
-
 
     fun chargeDataRVDB(pos: Int) {
         lifecycleScope.launch(Dispatchers.Main) {
@@ -218,11 +201,9 @@ class FirstFragment : Fragment() {
         page++
     }
 
-
-    //martes 11 de julio
+    //Martes 11 de julio
     fun chargeDataRVAPI(limit: Int, offset: Int) {
         lifecycleScope.launch(Dispatchers.Main) {
-            // marvelCharsItems.addAll(withContext(Dispatchers.IO) {
             marvelCharsItems = withContext(Dispatchers.IO) {
                 return@withContext (MarvelLogic().getAllMarvelChars(
                     offset, limit
@@ -233,34 +214,39 @@ class FirstFragment : Fragment() {
                 this.adapter = rvAdapter
                 this.layoutManager = gManager
             }
-            this@FirstFragment.offset = offset + limit
+            this@FirstFragment.offset += limit
         }
     }
 
-
-    fun chargeDataRVInit(limit: Int, offset: Int) {
-
-        if(Metodos().isOnline(requireActivity())){
+    fun chargeDataRVInit(limit: Int,offset: Int) {
+        if (Metodos().isOnline(requireActivity())) {
             lifecycleScope.launch(Dispatchers.Main) {
                 marvelCharsItems = withContext(Dispatchers.IO) {
-                    return@withContext MarvelLogic().getInitChars(limit,offset)
-
+                    return@withContext MarvelLogic().getInitChars(limit, offset)
                 }
+
+                this@FirstFragment.offset +=limit
                 rvAdapter.items = marvelCharsItems
                 binding.rvMarvelChars.apply {
                     this.adapter = rvAdapter
-                    this.layoutManager = gManager
+                    this.layoutManager = gManager//para hacer 2 columnas
                 }
-                this@FirstFragment.offset += limit
             }
-        }else {
-            Snackbar.make(
-            binding.cardView,
-            "No hay conexion",
-            Snackbar.LENGTH_LONG
-            ).show()
+        } else {
+            //Snackbar.make(requireContext(), "No hay conexion", Snackbar.LENGTH_LONG).show()
+            Toast.makeText(requireContext(), "No hay conexion", Toast.LENGTH_SHORT).show()
         }
     }
+
+    //sabado 15 de julio
+    private fun getDataStore() =
+        requireActivity().dataStore.data.map { prefs ->
+            UserDataStore(
+                name= prefs[stringPreferencesKey("usuario")].orEmpty(),
+                email= prefs[stringPreferencesKey("contrasenia")].orEmpty(),
+                session =  prefs[stringPreferencesKey("pass")].orEmpty()
+            )
+        }
 
 }
 

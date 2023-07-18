@@ -7,8 +7,10 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ArrayAdapter
+import android.widget.Toast
 import androidx.core.widget.addTextChangedListener
 import androidx.lifecycle.lifecycleScope
+import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.dispositivos_moviles.R
@@ -19,6 +21,8 @@ import com.example.dispositivos_moviles.logic.marvelLogic.MarvelLogic
 import com.example.dispositivos_moviles.ui.activities.DetailsMarvelItem
 import com.example.dispositivos_moviles.ui.adapters.MarvelAdapter
 import com.example.dispositivos_moviles.ui.adapters.MarvelAdapter3
+import com.example.dispositivos_moviles.ui.utilities.Metodos
+import com.google.android.material.snackbar.Snackbar
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
@@ -26,110 +30,140 @@ import kotlinx.coroutines.withContext
 
 class ThirdFragment : Fragment() {
     private lateinit var binding: FragmentThirdBinding
+    private lateinit var lManager: LinearLayoutManager
+    private lateinit var gManager: GridLayoutManager
 
-    private lateinit var lmanager: LinearLayoutManager
-    private lateinit var rvAdapter: MarvelAdapter3
-
+    private var rvAdapter: MarvelAdapter3 = MarvelAdapter3 { sendMarvelItem(it) }
     private var marvelCharsItems: MutableList<MarvelChars> = mutableListOf<MarvelChars>()
 
+    //martes 11 de julio
+    private val limit = 99
+    private var offset = 6
+    private var page = 1
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        // Inflate the layout for this fragment
-        binding = FragmentThirdBinding.inflate(
-            layoutInflater, container, false
-        )
-        lmanager = LinearLayoutManager(
+        binding= FragmentThirdBinding.inflate(
+            layoutInflater, container, false)
+        lManager = LinearLayoutManager(
             requireActivity(),
             LinearLayoutManager.VERTICAL,
             false
         )
-        return binding.root
+
+       // gManager = GridLayoutManager(requireActivity(), 2)
+        return binding.root    }
+
+    override fun onStart() {
+        super.onStart();
+
+        chargeDataRVInit(limit, offset)
+        //chargeDataRVAPI(offset = offset, limit = limit)
+
+        binding.rvSwipe3.setOnRefreshListener {
+            chargeDataRVAPI(offset = offset, limit = limit)
+            binding.rvSwipe3.isRefreshing = false
+            lManager.scrollToPositionWithOffset(5, 20)
+        }
+
+        binding.rvMarvelChars3.addOnScrollListener(
+            object : RecyclerView.OnScrollListener() {
+                override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
+                    super.onScrolled(recyclerView, dx, dy)
+                    if (dy > 0) {
+                        val v = lManager.childCount //cuantos elems han pasado
+                        val p = lManager.findFirstVisibleItemPosition() //mi posicion actual
+                        val t = lManager.itemCount //cuantos elems tengo en total
+
+                        if ((v + p) >= t) {
+                            lifecycleScope.launch((Dispatchers.Main))
+                            {
+                                val items = with(Dispatchers.IO) {
+                                    MarvelLogic().getMarvelChars("spider", page * 3)
+                                    //JikanAnimeLogic().getAllAnimes()
+                                }
+                                rvAdapter.updateListItems((items))
+
+                            }
+                        }
+
+                    }
+
+                }
+            })
+
+        binding.txtFilter3.addTextChangedListener { filteredText ->
+            val newItems = marvelCharsItems.filter { items ->
+                items.name.lowercase().contains(filteredText.toString().lowercase())
+            }
+            rvAdapter.replaceListItems(newItems)
+        }
+
     }
 
-    private fun sendMarvelItem(item: MarvelChars) {
+    fun sendMarvelItem(item: MarvelChars) {//se obtiene la información(detalles) de cada item
+        //Intent(contexto de la activity, .class de la activity)
         val i = Intent(requireActivity(), DetailsMarvelItem::class.java)
         i.putExtra("name", item)
         startActivity(i)
     }
-    override fun onStart() {
-        super.onStart()
-        //carga los datos
-//        chargeDataRV("cap")
 
-        binding.rvSwipe3.setOnRefreshListener {
-//            chargeDataRV("cap")
-            binding.rvSwipe3.isRefreshing = false
-        }
-        binding.rvMarvelChars3.addOnScrollListener(object : RecyclerView.OnScrollListener() {
-            override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
-                super.onScrolled(recyclerView, dx, dy)
-
-                if (dy > 0) {
-                    val v = lmanager.childCount
-                    val p = lmanager.findFirstVisibleItemPosition()
-                    val t = lmanager.itemCount
-                    if ((v + p) >= t) {
-                        lifecycleScope.launch((Dispatchers.IO)) {
-                            val newItems = JikanAnimeLogic().getAllAnimes()
-                            withContext(Dispatchers.Main) {
-                                rvAdapter.updateListItems(newItems)
-                            }
-                        }
-                    }
-                }
-            }
-        })
-
-        //nos sirve para filtrar informacion
-        binding.txtFilter3.addTextChangedListener {
-            chargeDataRV(binding.txtFilter3.text.toString())
-        }
-    }
-
-    private fun chargeDataRV(search: String) {
-
+    fun chargeDataRV(pos: Int) {
         lifecycleScope.launch(Dispatchers.Main) {
+            //rvAdapter.items = JikanAnimeLogic().getAllAnimes()
             marvelCharsItems = withContext(Dispatchers.IO) {
                 return@withContext (MarvelLogic().getMarvelChars(
-                    search, 99
+                    "spider", page * 3
                 ))
             }
-            rvAdapter = MarvelAdapter3(marvelCharsItems, fnClick = { sendMarvelItem(it) })
+            rvAdapter.items = marvelCharsItems
+
+            binding.rvMarvelChars3.apply {
+                this.adapter = rvAdapter;
+                this.layoutManager = lManager;
+
+                gManager.scrollToPositionWithOffset(pos, 10)
+            }
+        }
+        page++
+    }
+
+    //martes 11 de julio
+    fun chargeDataRVAPI(limit: Int, offset: Int) {
+        lifecycleScope.launch(Dispatchers.Main) {
+            // marvelCharsItems.addAll(withContext(Dispatchers.IO) {
+            marvelCharsItems = withContext(Dispatchers.IO) {
+                return@withContext (MarvelLogic().getAllMarvelChars(
+                    offset, limit
+                ))
+            }
+            rvAdapter.items = marvelCharsItems
             binding.rvMarvelChars3.apply {
                 this.adapter = rvAdapter
-                this.layoutManager = lmanager
+                this.layoutManager = lManager
             }
+            this@ThirdFragment.offset = offset + limit
+        }
+    }
+    fun chargeDataRVInit(limit: Int,offset: Int) {
+        if (Metodos().isOnline(requireActivity())) {
+            lifecycleScope.launch(Dispatchers.Main) {
+                marvelCharsItems = withContext(Dispatchers.IO) {
+                    return@withContext MarvelLogic().getInitChars(limit, offset)
+                }
+
+                this@ThirdFragment.offset +=limit
+                rvAdapter.items = marvelCharsItems
+                binding.rvMarvelChars3.apply {
+                    this.adapter = rvAdapter
+                    this.layoutManager = lManager
+                    // this.layoutManager = gManager//para hacer 2 columnas
+                }
+            }
+        } else {
+            //Snackbar.make(requireContext(), "No hay conexion", Snackbar.LENGTH_LONG).show()
+            Toast.makeText(requireContext(), "No hay conexion", Toast.LENGTH_SHORT).show()
         }
     }
 }
-    /*override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
-
-        binding = FragmentThirdBinding.inflate(layoutInflater, container, false)
-
-        return binding.root
-    }
-    override fun onStart(){
-        super.onStart()
-
-        val names = arrayListOf<String>(
-            "Carlos",
-            "Xavier",
-            "Andrés",
-            "Pepe",
-            "Mariano",
-            "Rosa")
-
-        val adapter = ArrayAdapter<String>(
-            requireActivity(),
-            R.layout.simple_layout,
-            names
-        )
-
-        binding.spinner3.adapter = adapter
-        binding.listView3.adapter = adapter
-    }*/

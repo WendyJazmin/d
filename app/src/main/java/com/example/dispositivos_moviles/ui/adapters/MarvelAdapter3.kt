@@ -5,69 +5,76 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.example.dispositivos_moviles.R
-import com.example.dispositivos_moviles.databinding.MarvelCharactersBinding
+import com.example.dispositivos_moviles.databinding.MarvelCharacters3Binding
 import com.example.dispositivos_moviles.logic.data.MarvelChars
 import com.squareup.picasso.Picasso
 
 class MarvelAdapter3 (
-    private var items: List<MarvelChars>,
-    private var fnClick: (MarvelChars) -> Unit //Este unit no te devuelve nada.
-) : //adaptor recibe dos parametros.
+    //Unit es igual al void en java, no devuelve nada
+    private var fnClick: (MarvelChars) -> Unit,
+
+    //martes 11 de julio
+    // private var fnSave:(MarvelChars) -> Boolean
+
+):
     RecyclerView.Adapter<MarvelAdapter3.MarvelViewHolder>() {
+    var items: List<MarvelChars> = listOf()
 
 
-    class MarvelViewHolder(view: View) : RecyclerView.ViewHolder(view) {
 
-        private val binding: MarvelCharactersBinding =
-        MarvelCharactersBinding.bind(view) // binding de layout creado
+    class MarvelViewHolder(view: View): RecyclerView.ViewHolder(view) {
 
-        fun render(
-            item: MarvelChars,
-            fnClick: (MarvelChars) -> Unit
-        ) { //tomar cada uno de los items de la lista
-            //println("Recibiendo a ${item.nombre}")
+        private val binding: MarvelCharacters3Binding = MarvelCharacters3Binding.bind(view)
+
+        fun render(item: MarvelChars,
+                   fnClick: (MarvelChars) -> Unit//,
+            // fnSave : (MarvelChars) -> Boolean  //martes 11 de julio
+        ){
+            binding.imgMarvel.bringToFront()
             binding.txtName.text = item.name
             binding.txtComic.text = item.comic
-
-            //picasso
             Picasso.get().load(item.image).into(binding.imgMarvel)
 
-            itemView.setOnClickListener {
+            itemView.setOnClickListener{
                 fnClick(item)
-                //Snackbar.make(binding.imgMarvel, item.name, Snackbar.LENGTH_LONG).setBackgroundTint(Color.rgb(247, 147, 76)).show()
+                //Snackbar.make(binding.imgMarvel, item.name, Snackbar.LENGTH_SHORT).show()
             }
+
+            /*
+            binding.btnSave.setOnClickListener{
+                fnSave(item)
+            }*/
         }
+
     }
 
-    // Creacion de layout xml (element)
     override fun onCreateViewHolder(
         parent: ViewGroup,
         viewType: Int
     ): MarvelViewHolder {
         val inflater = LayoutInflater.from(parent.context)
+
         return MarvelViewHolder(
             inflater.inflate(
-                R.layout.marvel_characters3,
-                parent,
-                false
+                R.layout.marvel_characters3, parent, false
             )
         )
-        // val a = inflater.inflate(R.layout.marvel_personajes, parent, false)
-        // return MarvelViewHolder(a)
     }
 
     override fun onBindViewHolder(holder: MarvelViewHolder, position: Int) {
-        holder.render(items[position], fnClick)
+        holder.render(items[position], fnClick, /*fnSave */)
     }
 
     override fun getItemCount(): Int = items.size
 
-    fun updateListItems(newItems: List<MarvelChars>) {
-        this.items = this.items.plus(newItems)
+    fun updateListItems(newItems: List<MarvelChars>){
+        //plus agrega a la lista los nuevos elems
+        items = items.plus(newItems)
         notifyDataSetChanged()
     }
 
-    fun replaceListItems(newItems: List<MarvelChars>) {
+    fun replaceListItems(newItems: List<MarvelChars>){
+        //plus agrega a la lista los nuevos elems
         this.items = newItems
         notifyDataSetChanged()
     }

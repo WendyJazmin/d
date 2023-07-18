@@ -21,6 +21,9 @@
             android:name=".ui.activities.DetailsMarvelItem"
             android:exported="false" />
         <activity
+            android:name=".ui.activities.MainActivity"
+            android:exported="false" />
+        <activity
             android:name=".ui.activities.SecondActivity"
             android:exported="true">
             <intent-filter>
@@ -29,9 +32,7 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity
-            android:name=".ui.activities.MainActivity"
-            android:exported="true" />
+
     </application>
 
 </manifest>

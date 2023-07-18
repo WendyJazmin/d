@@ -18,6 +18,7 @@ class SecondActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+       // setContentView(R.layout.activity_second)
         binding = ActivitySecondBinding.inflate(layoutInflater)
         setContentView(binding.root)
     }
@@ -30,10 +31,11 @@ class SecondActivity : AppCompatActivity() {
         binding.txtView.text = "Bienvenido $name"
         Log.d("UCE", "Entrando a Start")
 
-        super.onStart()
-        FragmentsManager().replaceFragment(supportFragmentManager,
+        //super.onStart()
+       /* FragmentsManager().replaceFragment(supportFragmentManager,
             binding.frmContainer.id, FirstFragment()
-        )
+        )*/
+
 
         initClass()
     }
@@ -45,9 +47,6 @@ class SecondActivity : AppCompatActivity() {
     override fun onBackPressed() {
         super.onBackPressed()
     }
-//        intent.extras.let {
-//            name = it?.getString("var1")!!
-//        }
 
 
     fun initClass(){

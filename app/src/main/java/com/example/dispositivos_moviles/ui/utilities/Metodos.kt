@@ -22,8 +22,7 @@ class Metodos {
                 } else if (capabilities.hasTransport(NetworkCapabilities.TRANSPORT_ETHERNET)) {
                     Log.i("UCE", "NetworkCapabilities.TRANSPORT_ETHERNET")
                     return true
-                }
-            }
+                }          }
         }
         return false
     }

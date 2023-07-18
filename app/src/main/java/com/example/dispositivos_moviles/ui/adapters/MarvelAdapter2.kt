@@ -5,7 +5,8 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.example.dispositivos_moviles.R
-import com.example.dispositivos_moviles.databinding.MarvelCharactersBinding
+import com.example.dispositivos_moviles.databinding.MarvelCharacters2Binding
+
 import com.example.dispositivos_moviles.logic.data.MarvelChars
 import com.squareup.picasso.Picasso
 
@@ -25,13 +26,13 @@ class MarvelAdapter2(
 
     class MarvelViewHolder(view: View): RecyclerView.ViewHolder(view) {
 
-        private val binding: MarvelCharactersBinding = MarvelCharactersBinding.bind(view)
+        private val binding: MarvelCharacters2Binding = MarvelCharacters2Binding.bind(view)
 
         fun render(item: MarvelChars,
                    fnClick: (MarvelChars) -> Unit//,
             // fnSave : (MarvelChars) -> Boolean  //martes 11 de julio
         ){
-            // binding.imgMarvel.bringToFront()
+             binding.imgMarvel.bringToFront()
             binding.txtName.text = item.name
             binding.txtComic.text = item.comic
             Picasso.get().load(item.image).into(binding.imgMarvel)
@@ -41,6 +42,7 @@ class MarvelAdapter2(
                 //Snackbar.make(binding.imgMarvel, item.name, Snackbar.LENGTH_SHORT).show()
             }
 
+            //martes 11 de julio
             /*
             binding.btnSave.setOnClickListener{
                 fnSave(item)

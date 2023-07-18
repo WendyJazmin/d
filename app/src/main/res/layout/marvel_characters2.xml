@@ -65,15 +65,7 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="@id/txtName"
                 tools:text="" />
-        <!--
-               <Button
-                     android:id="@+id/btnSave2"
-                     android:layout_width="100dp"
-                     android:layout_height="40dp"
-                   android:layout_gravity="center"
-                     android:drawableLeft="@drawable/favorite_24"
-                     tools:layout_editor_absoluteX="120dp"
-                     tools:layout_editor_absoluteY="199dp" />
+
 
 -->
         </LinearLayout>

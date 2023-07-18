@@ -12,7 +12,7 @@ import com.squareup.picasso.Picasso
 class MarvelAdapter(
 
     //Unit es igual al void en java, no devuelve nada
-    private var fnClick: (MarvelChars) -> Unit,
+    private var fnClick: (MarvelChars) -> Unit//,
 
     //martes 11 de julio
    // private var fnSave:(MarvelChars) -> Boolean
@@ -20,8 +20,6 @@ class MarvelAdapter(
 ):
     RecyclerView.Adapter<MarvelAdapter.MarvelViewHolder>() {
     var items: List<MarvelChars> = listOf()
-
-
 
     class MarvelViewHolder(view: View): RecyclerView.ViewHolder(view) {
 
@@ -41,6 +39,7 @@ class MarvelAdapter(
                 //Snackbar.make(binding.imgMarvel, item.name, Snackbar.LENGTH_SHORT).show()
             }
 
+            //martes 11 de julio
             /*
             binding.btnSave.setOnClickListener{
                 fnSave(item)

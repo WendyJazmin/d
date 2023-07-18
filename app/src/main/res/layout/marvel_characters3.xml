@@ -3,17 +3,17 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:background="#321C5A">
+    android:layout_height="wrap_content">
 
 
     <androidx.cardview.widget.CardView
 
         android:layout_width="match_parent"
         android:layout_height="150dp"
-        android:layout_marginBottom="25dp"
+        android:layout_margin="8sp"
         app:cardCornerRadius="12dp"
         app:cardElevation="10dp"
+        android:layout_marginBottom="25dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
@@ -78,18 +78,15 @@
                     android:textColor="@color/white"
                     app:layout_constraintStart_toEndOf="@+id/imageView1"
                     app:layout_constraintTop_toBottomOf="@+id/txtName" />
+
+                <Button
+                    android:id="@+id/btnSave2"
+                    android:layout_width="100dp"
+                    android:layout_height="48dp"
+                    android:backgroundTint="@color/azul"
+                    android:drawableLeft="@drawable/favorite_24" />
             </LinearLayout>
         </LinearLayout>
-        <!--  -->
-        <!--    <Button
-                android:id="@+id/btnSave"
-                android:layout_width="100dp"
-                android:layout_height="40dp"
-                android:drawableLeft="@drawable/favorite_24"
-                tools:layout_editor_absoluteX="160dp"
-                tools:layout_editor_absoluteY="96dp" />  -->
-
-
 
     </androidx.cardview.widget.CardView>
 

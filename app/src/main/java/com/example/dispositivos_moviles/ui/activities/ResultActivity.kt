@@ -5,6 +5,10 @@ import android.os.Bundle
 import com.example.dispositivos_moviles.R
 import com.example.dispositivos_moviles.databinding.ActivityResultBinding
 
+//martes 18 de julio
+import android.content.Intent
+
+
 class ResultActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityResultBinding
@@ -19,15 +23,18 @@ class ResultActivity : AppCompatActivity() {
 
     override fun onStart() {
         super.onStart()
-        binding.btnResult.setOnClickListener{
-
-            setResult(RESULT_OK)
-            finish()//matamos el estado, se ejecuta el onDestroy
+        binding.btnResultOk.setOnClickListener{
+            val i = Intent()
+            i.putExtra("result", "Resultado exitoso")
+            setResult(RESULT_OK, i)
+            finish()//termina la activity, se ejecuta el onDestroy
         }
 
         binding.btnResultFalse.setOnClickListener{
-            setResult(RESULT_CANCELED)
-            finish()//matamos el estado, se ejecuta el onDestroy
+            val i = Intent()
+            i.putExtra("result", "Resultado fallido")
+            setResult(RESULT_CANCELED, i)
+            finish()//termina la activity, se ejecuta el onDestroy
         }
     }
 }

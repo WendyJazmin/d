@@ -7,7 +7,7 @@
     tools:context=".ui.activities.ResultActivity">
 
     <Button
-        android:id="@+id/btnResult"
+        android:id="@+id/btnResultOk"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="120dp"

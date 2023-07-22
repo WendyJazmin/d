@@ -55,7 +55,7 @@
         app:layout_constraintTop_toBottomOf="@+id/textSaludo" />
 
     <EditText
-        android:id="@+id/editTextTextEmailAddress"
+        android:id="@+id/editTextEmailAddress"
         android:layout_width="310dp"
         android:layout_height="45dp"
         android:layout_marginStart="48dp"
@@ -74,7 +74,7 @@
         android:layout_marginTop="32dp"
         android:text="@string/Contraseña"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/editTextTextEmailAddress" />
+        app:layout_constraintTop_toBottomOf="@+id/editTextEmailAddress" />
 
     <EditText
         android:id="@+id/editTextTextPassword"
@@ -112,7 +112,7 @@
 
     <Button
         android:drawableLeft="@drawable/twitter_25"
-        android:id="@+id/buttonTwitter"
+        android:id="@+id/btnTwitter"
         style="@style/buttonForm"
         android:layout_width="@dimen/btn_altern_width"
         android:layout_height="@dimen/btn_height"
@@ -126,7 +126,7 @@
 
     <Button
         android:drawableLeft="@drawable/facebook_25"
-        android:id="@+id/buttonFacebook"
+        android:id="@+id/btnFacebook"
         style="@style/buttonForm"
         android:layout_width="@dimen/btn_altern_width"
         android:layout_height="@dimen/btn_height"
@@ -147,7 +147,7 @@
         android:text="@string/Olvido"
         android:clickable="true"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/buttonTwitter" />
+        app:layout_constraintTop_toBottomOf="@+id/btnTwitter" />
 
     <TextView
         android:id="@+id/textRegistrese"
@@ -158,7 +158,7 @@
         android:layout_marginEnd="68dp"
         android:text="@string/Registrese"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/buttonFacebook" />
+        app:layout_constraintTop_toBottomOf="@+id/btnFacebook" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

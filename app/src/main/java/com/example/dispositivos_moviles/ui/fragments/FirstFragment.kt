@@ -70,7 +70,7 @@ class FirstFragment : Fragment() {
 
         //sabado 15 de julio
         lifecycleScope.launch(Dispatchers.Main) {
-            getDataStore().collect() { user ->
+            getDataStore().collect { user ->
                 Log.d("------------>> UCE email", user.email)
                 Log.d("------------>> UCE name", user.name)
                 Log.d("------------>> UCE session", user.session)

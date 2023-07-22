@@ -66,26 +66,24 @@
 
                     android:textStyle="bold"
                     android:fontFamily="@font/comfortaa_variablefont_wght"
-                    android:textColor="@color/white"/>
+                    android:textColor="#FBACCC"/>
 
                 <TextView
                     android:id="@+id/txtComic"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-
                     android:layout_marginTop="12dp"
                     android:text="Marvel"
                     android:textColor="@color/white"
-
                     android:textSize="14sp"
                     app:layout_constraintStart_toEndOf="@+id/imageView1"
                     app:layout_constraintTop_toBottomOf="@+id/txtName" />
 
                 <Button
                     android:id="@+id/btnSave"
-                    android:layout_width="100dp"
-                    android:layout_height="48dp"
-                    android:backgroundTint="@color/dark_red"
+                    android:layout_width="70dp"
+                    android:layout_height="30dp"
+                    android:backgroundTint="@color/rosa4"
                     android:drawableLeft="@drawable/favorite_24" />
 
 

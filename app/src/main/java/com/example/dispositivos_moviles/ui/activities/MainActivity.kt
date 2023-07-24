@@ -32,6 +32,16 @@ import java.util.Locale
 
 import androidx.activity.result.contract.ActivityResultContracts.StartActivityForResult
 
+//
+import android.Manifest
+import android.annotation.SuppressLint
+import android.location.Geocoder
+import androidx.core.content.PermissionChecker.PermissionResult
+import com.google.android.gms.location.FusedLocationProviderClient
+import com.google.android.gms.location.LocationServices
+import com.google.android.gms.tasks.Task
+import android.content.res.Resources
+import androidx.activity.result.contract.ActivityResultContracts.RequestPermission
 
 //sabado 15 de julio
 val Context.dataStore: DataStore<Preferences> by preferencesDataStore(name = "settings")
@@ -39,11 +49,16 @@ class MainActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityMainBinding
 
+    //interfaz que nos va a permitir acceder a la ubicacion del ususario
+    private lateinit var fusedLocationProviderClient : FusedLocationProviderClient
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
+
+        fusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(this)
     }
 
     override fun onStart(){
@@ -51,10 +66,13 @@ class MainActivity : AppCompatActivity() {
         initClass()
     }
 
+    @SuppressLint("MissingPermission")
+
     override fun onDestroy() {
         super.onDestroy()
     }
 
+    @SuppressLint("MissingPermission")
     private fun initClass(){
         Log.d("UCE", "Entrando a start")
 
@@ -86,10 +104,56 @@ class MainActivity : AppCompatActivity() {
             }
         }
 
+        val locationContract = registerForActivityResult(RequestPermission()) {
+                isGranted ->
+            when(isGranted){
+                true -> {
+                    fusedLocationProviderClient.lastLocation.addOnSuccessListener {
+                        it.longitude
+                        it.latitude
+
+                        val a = Geocoder(this)
+                        a.getFromLocation(it.latitude, it.longitude, 1)
+                    }
+
+                    /*val task = fusedLocationProviderClient.lastLocation
+                    task.addOnSuccessListener {
+                        if(task.result != null) {
+                            Snackbar.make(binding.txtName,
+                                "${it.latitude}, ${it.longitude}",
+                                Snackbar.LENGTH_LONG)
+                                .show()
+                        } else {
+                            Snackbar.make(binding.txtName,
+                                "Encienda el GPS, por favor",
+                                Snackbar.LENGTH_LONG)
+                                .show()
+                        }
+                    }*/
+                }
+
+                //Informa al usuario de porque se necesita los permisos
+                shouldShowRequestPermissionRationale(
+                    Manifest.permission.ACCESS_FINE_LOCATION
+                ) -> {
+                    Snackbar.make(binding.textCorreo,
+                        "Ayude con el permiso",
+                        Snackbar.LENGTH_LONG)
+                        .show()
+                }
+                false -> {
+                    Snackbar.make(binding.textCorreo, "Permiso denegado", Snackbar.LENGTH_LONG)
+                        .show()
+                }
+            }
+
+        }
+
         //Lunes 17 de julio
         binding.btnTwitter.setOnClickListener {
 
-            val intent = Intent(
+            locationContract.launch(Manifest.permission.ACCESS_FINE_LOCATION)
+            /*val intent = Intent(
                 Intent.ACTION_WEB_SEARCH
             )
             //abre la barra de busqueda de Google
@@ -99,7 +163,7 @@ class MainActivity : AppCompatActivity() {
             )
             //busca steam en el navegador
             intent.putExtra(SearchManager.QUERY, "UCE")
-            startActivity(intent)
+            startActivity(intent)*/
         }
 
         val appResultLocal = registerForActivityResult(StartActivityForResult()) {

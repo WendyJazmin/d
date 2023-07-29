@@ -24,6 +24,6 @@
         android:text="Result false"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/btnResult" />
+        app:layout_constraintTop_toBottomOf="@+id/btnResultOk" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

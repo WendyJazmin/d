@@ -45,18 +45,24 @@ import android.location.Location
 import android.os.Looper
 import androidx.activity.result.contract.ActivityResultContracts.RequestPermission
 import androidx.appcompat.app.AlertDialog
+import com.example.dispositivos_moviles.ui.utilities.MyLocationManager
 import com.google.android.gms.common.api.ResolvableApiException
 import com.google.android.gms.location.LocationCallback
 import com.google.android.gms.location.LocationRequest
 import com.google.android.gms.location.LocationResult
+import com.google.android.gms.location.LocationSettingsRequest
 import com.google.android.gms.location.LocationSettingsStatusCodes
 import com.google.android.gms.location.Priority
+import com.google.android.gms.location.SettingsClient
 
 //sabado 15 de julio
 val Context.dataStore: DataStore<Preferences> by preferencesDataStore(name = "settings")
 class MainActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityMainBinding
+
+    private lateinit var client: SettingsClient
+    private lateinit var locationSettingsRequest : LocationSettingsRequest
 
     //interfaz que nos va a permitir acceder a la ubicacion del ususario
     private lateinit var fusedLocationProviderClient : FusedLocationProviderClient
@@ -118,11 +124,36 @@ class MainActivity : AppCompatActivity() {
             isGranted ->
         when(isGranted){
             true -> {
-                val task = fusedLocationProviderClient.lastLocation
-                task.addOnSuccessListener {
-                        location ->
+                client.checkLocationSettings(locationSettingsRequest).apply {
+                    //si el GPs esta funcionando:
+                    addOnSuccessListener {
+                        val task = fusedLocationProviderClient.lastLocation
+                        task.addOnSuccessListener {
+                                location ->
 
-                    val alert = AlertDialog.Builder(
+                            fusedLocationProviderClient.requestLocationUpdates(
+                                locationRequest, //tipo ubicacion, tiempo
+                                locationCallback, //resultado
+                                Looper.getMainLooper() //loop
+                            )
+                        }
+                    }
+
+                    //si el GPS falla
+                    addOnFailureListener {
+                            ex ->
+                        //si es una excepcion que la API puede solucionar
+                        if(ex is ResolvableApiException) {
+                            //lanza alert dialog listo para habilitar el GPS
+                            ex.startResolutionForResult(
+                                this@MainActivity,
+                                LocationSettingsStatusCodes.RESOLUTION_REQUIRED
+                            )
+                        }
+                    }
+                }
+
+                  /*  val alert = AlertDialog.Builder(
                         this,
                         com.google.android.material.R.style.ThemeOverlay_MaterialAlertDialog_Material3_Title_Icon
                     )
@@ -154,7 +185,7 @@ class MainActivity : AppCompatActivity() {
                             LocationSettingsStatusCodes.RESOLUTION_REQUIRED
                         )
                     }
-                }
+                }*/
             }
 
             //Informa al usuario de porque se necesita los permisos
@@ -181,7 +212,7 @@ class MainActivity : AppCompatActivity() {
 
         fusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(this)
         locationRequest = LocationRequest.Builder(
-            Priority.PRIORITY_HIGH_ACCURACY, 2000
+            Priority.PRIORITY_HIGH_ACCURACY, 1000
         )
             //.setMaxUpdates(3) //cuantas veces se va a pedir la actu
             .build() //exactitud de ubicacion y tiempo en ms
@@ -199,9 +230,12 @@ class MainActivity : AppCompatActivity() {
                                     "${location.longitude}")
                     }
                 }
-
             }
         }
+
+        client = LocationServices.getSettingsClient(this)
+        locationSettingsRequest = LocationSettingsRequest.Builder()
+            .addLocationRequest(locationRequest).build()
     }
 
     override fun onStart(){
@@ -327,13 +361,17 @@ class MainActivity : AppCompatActivity() {
         //
     }
 
-
-    //sabado 15 de julio
     private suspend fun saveDataStore(stringData:String){
         dataStore.edit {prefs->//hace una funcion suspendida y se tiene que ejecutar en una corrutina
             prefs[stringPreferencesKey("usuario")]= stringData
             prefs[stringPreferencesKey("session")]= UUID.randomUUID().toString() //UUI universal User Identifier
             prefs[stringPreferencesKey("email")]= "dispomoviles@uce.edu.ec"
         }
+    }
+
+    //Inyeccion de dependencias
+    private fun test(){
+        var location = MyLocationManager(this)
+        location.getUserLocation()
     }
 }

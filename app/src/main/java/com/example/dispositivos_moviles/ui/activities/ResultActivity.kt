@@ -23,7 +23,7 @@ class ResultActivity : AppCompatActivity() {
 
     override fun onStart() {
         super.onStart()
-        binding.btnResultOk.setOnClickListener{
+        binding.btnResultOK.setOnClickListener{
             val i = Intent()
             i.putExtra("result", "Resultado exitoso")
             setResult(RESULT_OK, i)

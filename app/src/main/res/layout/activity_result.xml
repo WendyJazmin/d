@@ -7,7 +7,7 @@
     tools:context=".ui.activities.ResultActivity">
 
     <Button
-        android:id="@+id/btnResultOk"
+        android:id="@+id/btnResultOK"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="120dp"
@@ -24,6 +24,6 @@
         android:text="Result false"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/btnResultOk" />
+        app:layout_constraintTop_toBottomOf="@+id/btnResultOK" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

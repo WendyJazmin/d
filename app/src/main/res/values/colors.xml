@@ -10,6 +10,8 @@
     <color name="blue">#23599B</color>
     <color name="morado">#B286FF</color>
     <color name="morado_oscuro">#FF673AB7</color>
+    <color name="purple">#FFBB86FC</color>
+    <color name="purple2">#FF6200EE</color>
 
 
 
@@ -17,6 +19,7 @@
     <color name="morado_pastel">#DBD9FF</color>
     <color name="azul">#7E9AE6</color>
     <color name="verde_azul">#82D3FF</color>
+    <color name="verde_azul2">#69B9FF</color>
     <color name="verde_claro">#CFF5F4</color>
     <color name="azul2">#587DAE</color>
     <color name="morado2">#DCC8FF</color>

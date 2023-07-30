@@ -46,6 +46,7 @@ class ThirdFragment : Fragment() {
     ): View? {
         binding= FragmentThirdBinding.inflate(
             layoutInflater, container, false)
+
         lManager = LinearLayoutManager(
             requireActivity(),
             LinearLayoutManager.VERTICAL,

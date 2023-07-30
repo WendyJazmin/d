@@ -1,16 +1,19 @@
 package com.example.dispositivos_moviles.ui.activities
 
-import android.content.Intent
+
 import android.os.Bundle
 import android.util.Log
+import android.widget.ImageView
 import androidx.appcompat.app.AppCompatActivity
+import com.bumptech.glide.Glide
 import com.example.dispositivos_moviles.R
-import com.example.dispositivos_moviles.databinding.ActivityMainBinding
+
 import com.example.dispositivos_moviles.databinding.ActivitySecondBinding
 import com.example.dispositivos_moviles.ui.fragments.FirstFragment
 import com.example.dispositivos_moviles.ui.fragments.SecondFragment
 import com.example.dispositivos_moviles.ui.fragments.ThirdFragment
 import com.example.dispositivos_moviles.ui.utilities.FragmentsManager
+
 
 class SecondActivity : AppCompatActivity() {
 

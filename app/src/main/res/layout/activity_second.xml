@@ -4,13 +4,16 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-
-    android:background="@color/black"
-
     tools:context=".ui.activities.SecondActivity">
 
-    <TextView
+    <pl.droidsonroids.gif.GifImageView
+        android:id="@+id/imgBackground"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:scaleType="centerCrop"
+        android:src="@drawable/fondo1" />
 
+    <TextView
         android:id="@+id/txtView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -18,13 +21,11 @@
         android:gravity="center"
         android:text="Second Activity"
         android:fontFamily="@font/coissantone_regular"
-        android:textColor="@color/morado_oscuro"
+        android:textColor="@color/white"
         android:textSize="40sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
-
-
 
 
     <FrameLayout
@@ -44,6 +45,7 @@
         android:id="@+id/bottom_navigation"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:background="@drawable/background4"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"

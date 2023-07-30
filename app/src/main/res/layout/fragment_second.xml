@@ -38,7 +38,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_gravity="right"
-                android:background="@color/verde_azul"
+                android:background="@color/verde_azul2"
                 android:fontFamily="@font/vt32_regular"
                 android:gravity="center"
                 android:includeFontPadding="false"

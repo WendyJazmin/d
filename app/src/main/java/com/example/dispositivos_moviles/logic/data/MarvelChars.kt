@@ -11,6 +11,7 @@ data class MarvelChars (
     val id: Int,
     val name: String,
     val comic: String,
+    val description: String,
     val image: String
     ): Parcelable
 
@@ -19,6 +20,7 @@ fun MarvelChars.getMarvelCharsDB() : MarvelCharsDB {
         id,
         name,
         comic,
+        description,
         image
     )
 }

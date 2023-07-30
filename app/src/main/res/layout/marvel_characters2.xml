@@ -43,7 +43,7 @@
                 android:layout_height="26dp"
                 android:layout_gravity="center"
                 android:fontFamily="@font/comfortaa_variablefont_wght"
-                android:textColor="@color/white"
+                android:textColor="#C9E7FB"
                 android:textSize="18sp"
                 android:textStyle="bold"
                 app:layout_constraintEnd_toEndOf="parent"

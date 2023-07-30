@@ -24,6 +24,7 @@ class JikanAnimeLogic {
                             it.mal_id,
                             it.title,
                             it.titles[0].title,
+                            it.title,
                             it.images.jpg.image_url
                         )
                         itemList.add(m)

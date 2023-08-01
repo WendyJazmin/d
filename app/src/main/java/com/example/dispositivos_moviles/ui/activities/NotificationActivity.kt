@@ -12,6 +12,14 @@ import androidx.core.app.NotificationManagerCompat
 import com.example.dispositivos_moviles.R
 import com.example.dispositivos_moviles.databinding.ActivityNotificationBinding
 
+import android.app.AlarmManager
+import android.app.PendingIntent
+import android.content.Intent
+import android.widget.Toast
+import com.example.dispositivos_moviles.ui.utilities.BroadcasterNotifications
+import java.util.Calendar
+
+
 class NotificationActivity : AppCompatActivity() {
     private lateinit var binding: ActivityNotificationBinding
 
@@ -24,6 +32,37 @@ class NotificationActivity : AppCompatActivity() {
             createNotificationChannel()
             sendNotification()
         }
+
+        binding.btnNotificationProgramada.setOnClickListener{
+            val calendar=Calendar.getInstance()
+            val hora=binding.timePicker.hour
+            val minutes=binding.timePicker.minute
+            Toast.makeText(
+                this,
+                "La notificacion se activara a las: $hora:$minutes",
+                Toast.LENGTH_SHORT
+            ).show()
+            calendar.set(Calendar.HOUR,hora)
+            calendar.set(Calendar.MINUTE,minutes)
+            calendar.set(Calendar.SECOND,0)
+            sendNotificationTimePicker(calendar.timeInMillis)
+        }
+    }
+
+    //Nota: Las fechas siempre se convierten en numeros tipo Long
+    private fun sendNotificationTimePicker(time:Long) {
+        //Desde cualquier parte de la aplicacion hacia el broadcast
+        val myIntent= Intent(applicationContext, BroadcasterNotifications::class.java)
+        val myPendingIntent=PendingIntent.getBroadcast(
+            applicationContext,
+            0,
+            myIntent,
+            //Estas banderas van a decir que va a pasar cuando se abra el intent
+            PendingIntent.FLAG_IMMUTABLE or PendingIntent.FLAG_UPDATE_CURRENT
+        )
+        //Alarm Manager nos va a ayudar a que el sistema se levante
+        val alarmManager=getSystemService(Context.ALARM_SERVICE) as AlarmManager
+        alarmManager.setExact(AlarmManager.RTC_WAKEUP,time,myPendingIntent)
     }
 
     val CHANNEL : String = "Notificaciones"

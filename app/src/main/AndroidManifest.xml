@@ -22,6 +22,9 @@
         android:usesCleartextTraffic="true"
         tools:targetApi="31">
         <activity
+            android:name=".ui.activities.ProgressActivity"
+            android:exported="false" />
+        <activity
             android:name=".ui.activities.NotificationActivity"
             android:exported="false" />
 
@@ -45,7 +48,7 @@
             android:name=".ui.activities.SecondActivity"
             android:exported="false" />
         <activity
-            android:name=".ui.activities.ProgressActivity"
+            android:name=".ui.activities.BiometricActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

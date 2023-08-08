@@ -6,18 +6,21 @@
         android:id="@+id/inicio"
         android:enabled="true"
         android:icon="@drawable/home_24"
+        app:actionMenuTextColor="@style/BlackText"
         android:title="@string/menu_inicio"
          />
     <item
         android:id="@+id/favoritos"
         android:enabled="true"
-        android:icon="@drawable/favorite_24"
+        android:icon="@drawable/star2"
+        app:actionMenuTextColor="@style/BlackText"
         android:title="@string/menu_favoritos"
          />
     <item
         android:id="@+id/apis"
         android:enabled="true"
         android:icon="@drawable/chat_24"
+        app:actionMenuTextColor="@style/BlackText"
         android:title="@string/menu_chat_gpt"
          />
 </menu>

@@ -12,6 +12,11 @@
         <item name="android:textSize">14sp</item>
     </style>
 
+    <style name="BlackText">
+        <item name="android:textColor">@color/black</item>
+
+    </style>
+
     <style name="buttonForm">
         <item name="cornerRadius">5dp</item>
     </style>

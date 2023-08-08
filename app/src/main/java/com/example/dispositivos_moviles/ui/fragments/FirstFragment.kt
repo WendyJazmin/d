@@ -33,7 +33,7 @@ import kotlinx.coroutines.withContext
 
 //import sabado 15 de julio
 import com.example.dispositivos_moviles.ui.activities.dataStore
-import com.example.dispositivos_moviles.ui.data.UserDataStore
+import com.example.dispositivos_moviles.ui.adapters.data.UserDataStore
 import kotlinx.coroutines.flow.map
 import androidx.datastore.preferences.core.stringPreferencesKey
 

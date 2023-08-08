@@ -83,8 +83,8 @@
                     android:id="@+id/btnSave"
                     android:layout_width="70dp"
                     android:layout_height="30dp"
-                    android:backgroundTint="@color/rosa4"
-                    android:drawableLeft="@drawable/favorite_24" />
+                    android:backgroundTint="@color/rosa2"
+                    android:drawableLeft="@drawable/star" />
 
 
             </LinearLayout>

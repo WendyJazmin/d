@@ -25,7 +25,7 @@
     android:padding="5dp"
     android:fontFamily="@font/comfortaa_variablefont_wght"
     android:textColor="@color/white"
-    android:background="@drawable/background"
+    android:background="@color/rojo_vino"
     android:textStyle="bold"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"

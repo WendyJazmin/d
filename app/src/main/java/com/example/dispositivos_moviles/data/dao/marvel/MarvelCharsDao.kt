@@ -16,6 +16,6 @@ interface MarvelCharsDao {
     @Query("select * from MarvelCharsDB where id = :pk")
     fun getOneCharacter(pk: Int): MarvelCharsDB
 
-    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    @Insert
     fun insertMarvelChar(ch: List<MarvelCharsDB>)
 }

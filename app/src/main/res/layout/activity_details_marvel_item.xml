@@ -12,20 +12,21 @@
         android:layout_height="match_parent">
 
         <!-- ImageView para el GIF de fondo -->
+
+
         <pl.droidsonroids.gif.GifImageView
             android:id="@+id/imgBackground"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_width="wrap_content"
+            android:layout_height="744dp"
             android:scaleType="centerCrop"
-            android:src="@drawable/fondo4" />
-
+            android:src="@drawable/fondo2" />
 
         <ImageView
             android:id="@+id/imgMarvel"
             android:layout_width="300dp"
             android:layout_height="300dp"
-            android:layout_marginTop="45dp"
-            android:layout_gravity="top|center" />
+            android:layout_gravity="top|center"
+            android:layout_marginTop="45dp" />
 
         <TextView
             android:id="@+id/txtName"
@@ -65,12 +66,19 @@
 
         <!-- Añadir a Favoritos -->
         <com.google.android.material.floatingactionbutton.FloatingActionButton
-            android:layout_width="208dp"
-            android:layout_height="62dp"
-            android:layout_marginTop="500dp"
-            android:src="@drawable/favorite_24"
+            android:layout_width="62dp"
+            android:layout_height="wrap_content"
             android:layout_gravity="bottom|right"
-            android:layout_marginBottom="10dp" />
+            android:layout_marginTop="500dp"
+            android:layout_marginEnd="20dp"
+            android:layout_marginRight="20dp"
+            android:layout_marginBottom="30dp"
+            android:src="@drawable/favorite_24"
+            app:fabSize="normal"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            tools:ignore="SpeakableTextPresentCheck"></com.google.android.material.floatingactionbutton.FloatingActionButton>
+
 
     </FrameLayout>
 </ScrollView>

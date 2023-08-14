@@ -36,7 +36,7 @@
             android:name=".ui.activities.CameraActivity"
             android:exported="false" />
         <activity
-            android:name=".ui.activities.MainActivity"
+            android:name=".ui.activities.SecondActivity"
             android:exported="false" />
         <activity
             android:name=".ui.activities.ResultActivity"
@@ -45,10 +45,10 @@
             android:name=".ui.activities.DetailsMarvelItem"
             android:exported="false" />
         <activity
-            android:name=".ui.activities.SecondActivity"
+            android:name=".ui.activities.BiometricActivity"
             android:exported="false" />
         <activity
-            android:name=".ui.activities.BiometricActivity"
+            android:name=".ui.activities.MainActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

@@ -19,8 +19,10 @@ import com.example.dispositivos_moviles.ui.adapters.MarvelAdapter2
 import com.example.dispositivos_moviles.databinding.FragmentSecondBinding
 import com.example.dispositivos_moviles.databinding.FragmentThirdBinding
 import com.example.dispositivos_moviles.logic.data.MarvelChars
+import com.example.dispositivos_moviles.logic.data.getMarvelCharsDB
 import com.example.dispositivos_moviles.logic.marvelLogic.MarvelLogic
 import com.example.dispositivos_moviles.ui.adapters.MarvelAdapter3
+import com.example.dispositivos_moviles.ui.utilities.Dispositivos_Moviles
 import com.example.dispositivos_moviles.ui.utilities.Metodos
 import com.google.android.material.snackbar.Snackbar
 import kotlinx.coroutines.Dispatchers
@@ -113,7 +115,7 @@ class SecondFragment : Fragment() {
 
     //Martes 11 de julio
     //guardar en favoritos
-    /* fun saveMarvelItem(item : MarvelChars ) : Boolean {
+    fun saveMarvelItem(item : MarvelChars ) : Boolean {
          lifecycleScope.launch(Dispatchers.Main) {
              withContext(Dispatchers.IO) {
                  Dispositivos_Moviles
@@ -124,7 +126,7 @@ class SecondFragment : Fragment() {
              }
          }
          return true
-     }*/
+     }
 
 
     fun chargeDataRV(search: String) {
@@ -175,20 +177,26 @@ class SecondFragment : Fragment() {
 
     //martes 11 de julio
     fun chargeDataRVAPI(limit: Int, offset: Int) {
-        lifecycleScope.launch(Dispatchers.Main) {
-            // marvelCharsItems.addAll(withContext(Dispatchers.IO) {
-            marvelCharsItems = withContext(Dispatchers.IO) {
-                return@withContext (MarvelLogic().getAllMarvelChars(
-                    offset, limit
-                ))
+        if (Metodos().isOnline(requireActivity())) {
+            lifecycleScope.launch(Dispatchers.Main) {
+                // marvelCharsItems.addAll(withContext(Dispatchers.IO) {
+                marvelCharsItems = withContext(Dispatchers.IO) {
+                    return@withContext (MarvelLogic().getAllMarvelChars(
+                        offset, limit
+                    ))
+                }
+                rvAdapter.items = marvelCharsItems
+                binding.rvMarvelChars2.apply {
+                    this.adapter = rvAdapter
+                    //this.layoutManager = lManager
+                    this.layoutManager = gManager//para hacer 2 columnas
+                }
+                this@SecondFragment.offset = offset + limit
             }
-            rvAdapter.items = marvelCharsItems
-            binding.rvMarvelChars2.apply {
-                this.adapter = rvAdapter
-                //this.layoutManager = lManager
-                this.layoutManager = gManager//para hacer 2 columnas
-            }
-            this@SecondFragment.offset = offset + limit
+        } else {
+            //Snackbar.make(binding.cardView, "No hay conexion", Snackbar.LENGTH_SHORT).show()
+            Toast.makeText(requireContext(), "No hay conexion", Toast.LENGTH_SHORT).show()
+
         }
     }
     fun chargeDataRVInit(limit: Int,offset: Int) {

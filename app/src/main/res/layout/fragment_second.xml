@@ -3,6 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
+    android:background="@drawable/fondo1"
     android:layout_height="wrap_content"
     android:orientation="vertical"
 
@@ -12,7 +13,7 @@
         android:id="@+id/cardView2"
         android:layout_width="match_parent"
         android:layout_height="100dp"
-        android:layout_margin="10dp"
+        android:layout_margin="20dp"
         app:cardCornerRadius="25dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.496"
@@ -22,15 +23,15 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:orientation="horizontal"
-            android:background="@drawable/background3"
+            android:background="@color/black"
             android:layout_height="wrap_content">
 
         <!-- Insertando GIF -->
             <pl.droidsonroids.gif.GifImageView
                 android:layout_width="76dp"
                 android:layout_height="match_parent"
-                android:layout_gravity="left"
-                android:layout_marginRight="10dp"
+                android:layout_gravity="right"
+                android:layout_marginLeft="20dp"
                 android:scrollbarSize="2dp"
                 android:src="@drawable/yoshi" />
 
@@ -39,12 +40,12 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_gravity="right"
-                android:background="@color/verde_azul2"
+
                 android:fontFamily="@font/vt32_regular"
                 android:gravity="center"
                 android:includeFontPadding="false"
                 android:text="Buscar Personaje"
-                android:textColor="@color/black"
+                android:textColor="@color/morado2"
                 android:textSize="43sp" />
         </LinearLayout>
     </androidx.cardview.widget.CardView>
@@ -54,6 +55,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical"
+        android:layout_margin="10dp"
         tools:layout_editor_absoluteX="68dp"
         tools:layout_editor_absoluteY="126dp">
 
@@ -67,7 +69,7 @@
             <ImageView
                 android:layout_width="44dp"
                 android:layout_height="match_parent"
-                android:layout_margin="10dp"
+                android:layout_marginStart="10dp"
                 android:src="@drawable/search">
             </ImageView>
 
@@ -75,15 +77,16 @@
                 android:id="@+id/txtFilter2"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginRight="30dp"
+                android:layout_marginLeft="5dp"
+                android:layout_marginRight="20dp"
                 android:fontFamily="@font/vt32_regular"
                 android:hint="Buscar"
                 android:imeOptions="actionSearch"
                 android:maxLines="1"
                 android:singleLine="true"
                 android:textColor="@color/white"
-                android:textColorHint="#51979FC5"
-                android:textSize="18sp" />
+                android:textColorHint="#51D5DBF8"
+                android:textSize="20sp" />
         </LinearLayout>
 
         <androidx.swiperefreshlayout.widget.SwipeRefreshLayout

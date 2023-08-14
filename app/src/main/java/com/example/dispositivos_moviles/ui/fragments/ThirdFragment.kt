@@ -60,7 +60,7 @@ class ThirdFragment : Fragment() {
         super.onStart();
 
         chargeDataRVInit(limit, offset)
-        //chargeDataRVAPI(offset = offset, limit = limit)
+       // chargeDataRVAPI(offset = offset, limit = limit)
 
         binding.rvSwipe3.setOnRefreshListener {
             chargeDataRVAPI(offset = offset, limit = limit)
@@ -132,20 +132,26 @@ class ThirdFragment : Fragment() {
 
     //martes 11 de julio
     fun chargeDataRVAPI(limit: Int, offset: Int) {
-        lifecycleScope.launch(Dispatchers.Main) {
-            // marvelCharsItems.addAll(withContext(Dispatchers.IO) {
-            marvelCharsItems = withContext(Dispatchers.IO) {
-                return@withContext (MarvelLogic().getAllMarvelChars(
-                    offset, limit
-                ))
+            if (Metodos().isOnline(requireActivity())) {
+            lifecycleScope.launch(Dispatchers.Main) {
+                // marvelCharsItems.addAll(withContext(Dispatchers.IO) {
+                marvelCharsItems = withContext(Dispatchers.IO) {
+                    return@withContext (MarvelLogic().getAllMarvelChars(
+                        offset, limit
+                    ))
+                }
+                rvAdapter.items = marvelCharsItems
+                binding.rvMarvelChars3.apply {
+                    this.adapter = rvAdapter
+                    this.layoutManager = lManager
+                }
+                this@ThirdFragment.offset = offset + limit
             }
-            rvAdapter.items = marvelCharsItems
-            binding.rvMarvelChars3.apply {
-                this.adapter = rvAdapter
-                this.layoutManager = lManager
+
+            } else {
+                //Snackbar.make(requireContext(), "No hay conexion", Snackbar.LENGTH_LONG).show()
+                Toast.makeText(requireContext(), "No hay conexion", Toast.LENGTH_SHORT).show()
             }
-            this@ThirdFragment.offset = offset + limit
-        }
     }
     fun chargeDataRVInit(limit: Int,offset: Int) {
         if (Metodos().isOnline(requireActivity())) {

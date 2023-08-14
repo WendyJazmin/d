@@ -15,7 +15,7 @@ class MarvelAdapter(
     private var fnClick: (MarvelChars) -> Unit//,
 
     //martes 11 de julio
-   // private var fnSave:(MarvelChars) -> Boolean
+   //private var fnSave:(MarvelChars) -> Boolean
 
 ):
     RecyclerView.Adapter<MarvelAdapter.MarvelViewHolder>() {
@@ -27,7 +27,7 @@ class MarvelAdapter(
 
         fun render(item: MarvelChars,
                    fnClick: (MarvelChars) -> Unit//,
-                   // fnSave : (MarvelChars) -> Boolean  //martes 11 de julio
+                  //  fnSave : (MarvelChars) -> Boolean  //martes 11 de julio
         ){
            // binding.imgMarvel.bringToFront()
             binding.txtName.text = item.name
@@ -40,8 +40,8 @@ class MarvelAdapter(
             }
 
             //martes 11 de julio
-            /*
-            binding.btnSave.setOnClickListener{
+
+            /*binding.btnSave.setOnClickListener{
                 fnSave(item)
             }*/
         }
@@ -62,7 +62,7 @@ class MarvelAdapter(
     }
 
     override fun onBindViewHolder(holder: MarvelViewHolder, position: Int) {
-        holder.render(items[position], fnClick, /*fnSave */)
+        holder.render(items[position], fnClick/*, fnSave*/ )
     }
 
     override fun getItemCount(): Int = items.size

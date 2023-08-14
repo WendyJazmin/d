@@ -44,7 +44,8 @@ class FirstFragment : Fragment() {
     private lateinit var lmanager: LinearLayoutManager
     private lateinit var gManager: GridLayoutManager  //para hacer en dos columnas
 
-    private var rvAdapter: MarvelAdapter = MarvelAdapter { sendMarvelItem(it) }
+
+   private var rvAdapter: MarvelAdapter =  MarvelAdapter({ sendMarvelItem(it) }/*, { saveMarvelItem(it) }*/)
     private var marvelCharsItems: MutableList<MarvelChars> = mutableListOf()
 
     //martes 11 de julio
@@ -95,13 +96,13 @@ class FirstFragment : Fragment() {
         )
 
         binding.spinner.adapter = adapter
-        //chargeDataRVInit(limit, offset)//martes 11 de julio, comprueba si existe conexion
-        chargeDataRVAPI(offset = offset, limit = limit)
+        chargeDataRVInit(limit, offset)//martes 11 de julio, comprueba si existe conexion
+        //chargeDataRVAPI(offset = offset, limit = limit)
 
         //CARGANDO
         binding.rvSwipe.setOnRefreshListener {
-            chargeDataRVInit(limit, offset)//martes 11 de julio, comprueba si existe conexion
-           // chargeDataRVAPI(offset = offset, limit = limit)
+            //chargeDataRVInit(limit, offset)//martes 11 de julio, comprueba si existe conexion
+           chargeDataRVAPI(offset = offset, limit = limit)
             binding.rvSwipe.isRefreshing = false
             lmanager.scrollToPositionWithOffset(5, 20)
         }
@@ -146,7 +147,7 @@ class FirstFragment : Fragment() {
     }
 
     //guardar en favoritos
-    /* fun saveMarvelItem(item : MarvelChars ) : Boolean {
+    fun saveMarvelItem(item : MarvelChars ) : Boolean {
          lifecycleScope.launch(Dispatchers.Main) {
              withContext(Dispatchers.IO) {
                  Dispositivos_Moviles
@@ -157,7 +158,7 @@ class FirstFragment : Fragment() {
              }
          }
          return true
-     }*/
+     }
 
     fun chargeDataRV(search: String) {
         lifecycleScope.launch(Dispatchers.IO) {
@@ -203,18 +204,24 @@ class FirstFragment : Fragment() {
 
     //Martes 11 de julio
     fun chargeDataRVAPI(limit: Int, offset: Int) {
-        lifecycleScope.launch(Dispatchers.Main) {
-            marvelCharsItems = withContext(Dispatchers.IO) {
-                return@withContext (MarvelLogic().getAllMarvelChars(
-                    offset, limit
-                ))
+        if (Metodos().isOnline(requireActivity())) {
+            lifecycleScope.launch(Dispatchers.Main) {
+                marvelCharsItems = withContext(Dispatchers.IO) {
+                    return@withContext (MarvelLogic().getAllMarvelChars(
+                        offset, limit
+                    ))
+                }
+                rvAdapter.items = marvelCharsItems
+                binding.rvMarvelChars.apply {
+                    this.adapter = rvAdapter
+                    this.layoutManager = gManager
+                }
+                this@FirstFragment.offset += limit
             }
-            rvAdapter.items = marvelCharsItems
-            binding.rvMarvelChars.apply {
-                this.adapter = rvAdapter
-                this.layoutManager = gManager
-            }
-            this@FirstFragment.offset += limit
+        } else {
+            //Snackbar.make(binding.cardView, "No hay conexion", Snackbar.LENGTH_SHORT).show()
+            Toast.makeText(requireContext(), "No hay conexion", Toast.LENGTH_SHORT).show()
+
         }
     }
 
@@ -229,7 +236,7 @@ class FirstFragment : Fragment() {
                 rvAdapter.items = marvelCharsItems
                 binding.rvMarvelChars.apply {
                     this.adapter = rvAdapter
-                    this.layoutManager = gManager//para hacer 2 columnas
+                    this.layoutManager = gManager
                 }
             }
         } else {

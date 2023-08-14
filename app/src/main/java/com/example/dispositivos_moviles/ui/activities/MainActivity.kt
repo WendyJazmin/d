@@ -232,6 +232,7 @@ class MainActivity : AppCompatActivity() {
                 binding.editTextEmailAddress.text.toString(),
                 binding.editTextTextPassword.text.toString()
             )*/
+
         }
         //
 
